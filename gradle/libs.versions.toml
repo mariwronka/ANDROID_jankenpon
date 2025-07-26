@@ -17,7 +17,7 @@ robolectric = "4.12.2"
 
 # Koin
 koin = "3.5.3"
-koinCompose = "1.1.0"
+koinCompose = "3.5.3"
 
 # Code Quality
 detekt = "1.23.6"
