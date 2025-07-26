@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.spotless)
 }
 
 android {
@@ -79,8 +80,26 @@ dependencies {
 }
 
 detekt {
-    config.setFrom("${rootDir}/detekt.yml")
+    config.setFrom("$rootDir/detekt.yml")
     buildUponDefaultConfig = true
     parallel = true
     autoCorrect = true
+}
+
+spotless {
+    kotlin {
+        target("**/*.kt")
+        ktlint(libs.versions.ktlint.get())
+    }
+
+    kotlinGradle {
+        target("**/*.gradle.kts")
+        ktlint()
+    }
+
+    format("misc") {
+        target("**/*.md", "**/.gitignore")
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
 }
