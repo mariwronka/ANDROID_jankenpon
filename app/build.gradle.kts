@@ -77,6 +77,14 @@ dependencies {
 
     // Code Quality
     detektPlugins(libs.detekt.formatting)
+
+    // Retrofit + Moshi + OkHttp
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.moshi)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
 }
 
 detekt {

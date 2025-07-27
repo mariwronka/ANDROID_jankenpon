@@ -1,7 +1,9 @@
 package com.mariwronka.jankenpon.di
 
+import com.mariwronka.jankenpon.data.source.local.PlayerDataManager
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val AppModule = module {
-    // Registrar dependências
+    single { PlayerDataManager(androidContext()) }
 }
