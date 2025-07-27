@@ -1,4 +1,4 @@
-package com.mariwronka.jankenpon
+package com.mariwronka.jankenpon.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

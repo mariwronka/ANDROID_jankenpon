@@ -1,6 +1,6 @@
 package com.mariwronka.jankenpon.data.repository
 
-import com.mariwronka.jankenpon.base.BaseRepositoryTest
+import com.mariwronka.jankenpon.common.BaseRepositoryTest
 import com.mariwronka.jankenpon.data.source.remote.entity.JankenponResult
 import com.mariwronka.jankenpon.domain.repository.JankenponRepository
 import org.junit.Test
@@ -18,8 +18,8 @@ class JankenponRepositoryImplTest : BaseRepositoryTest() {
                 cpu = "rock",
                 player = "paper",
                 winner = "player",
-                move = "paper beats rock"
-            )
+                move = "paper beats rock",
+            ),
         ) {
             repository.playGame("paper")
         }
