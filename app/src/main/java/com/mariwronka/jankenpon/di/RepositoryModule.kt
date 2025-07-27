@@ -7,6 +7,6 @@ import com.mariwronka.jankenpon.domain.repository.PlayersRepository
 import org.koin.dsl.module
 
 val RepositoryModule = module {
-    single<JankenponRepository> { JankenponRepositoryImpl(get()) }
-    single<PlayersRepository> { PlayersRepositoryImpl(get()) }
+    single<JankenponRepository> { JankenponRepositoryImpl(get(), get()) }
+    single<PlayersRepository> { PlayersRepositoryImpl(get(), get()) }
 }
