@@ -40,6 +40,7 @@ android {
 
     buildFeatures {
         compose = true
+        viewBinding = true
     }
 
     composeOptions {
@@ -78,42 +79,49 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    // Core Android
+    // Core Android (Jetpack)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.appcompat)
 
-    // Koin
+    // Design System
+    implementation(libs.material)
+    implementation(libs.androidx.constraintlayout)
+
+    // Dependency Injection (Koin)
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
     testImplementation(libs.koin.test)
     testImplementation(libs.koin.test.junit4)
 
-    // Coroutines
-    testImplementation(libs.coroutines.test)
-
-    // Testes
-    testImplementation(libs.junit)
-    testImplementation(libs.mockk)
-    testImplementation(libs.mockwebserver)
-    testImplementation(libs.robolectric)
-    androidTestImplementation(libs.mockk.android)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-
-    // Code Quality
-    detektPlugins(libs.detekt.formatting)
-
-    // Retrofit + Moshi + OkHttp
+    // Networking (Retrofit + Moshi + OkHttp)
     implementation(libs.retrofit)
     implementation(libs.retrofit.moshi)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
+
+    // Coroutines
+    testImplementation(libs.coroutines.test)
+
+    // Testes Unitários e Instrumentados
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockwebserver)
+    testImplementation(libs.robolectric)
+
+    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+
+    // Qualidade de Código
+    detektPlugins(libs.detekt.formatting)
 }
 
 detekt {
