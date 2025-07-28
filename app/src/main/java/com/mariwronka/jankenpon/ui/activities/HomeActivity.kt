@@ -1,10 +1,8 @@
 package com.mariwronka.jankenpon.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputEditText
-import com.mariwronka.jankenpon.R
 import com.mariwronka.jankenpon.databinding.ActivityHomeBinding
 import com.mariwronka.jankenpon.ui.viremodels.PlayersViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,12 +30,12 @@ class HomeActivity : AppCompatActivity() {
     private fun initObservers() {
         viewModel.opponentName.observe(this) { opponent ->
             viewModel.savePlayer(opponent)
-//            startActivity(
-//                Intent(this, StartGameActivity::class.java).apply {
-//                    putExtra("PLAYER_NAME", inputTextPlayer.text.toString())
-//                    putExtra("OPPONENT_NAME", opponent)
-//                }
-//            )
+            startActivity(
+                Intent(this, GameActivity::class.java).apply {
+                    putExtra("PLAYER_NAME", binding.tietPlayer.text.toString())
+                    putExtra("OPPONENT_NAME", opponent)
+                }
+            )
         }
     }
 
