@@ -1,39 +1,22 @@
 package com.mariwronka.jankenpon.ui.viremodels
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.mariwronka.jankenpon.data.source.local.PlayerData
 import com.mariwronka.jankenpon.data.source.local.PlayerDataManager
 import com.mariwronka.jankenpon.domain.repository.PlayersRepository
-import kotlinx.coroutines.launch
+import com.mariwronka.jankenpon.ui.common.BaseViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 
 class PlayersViewModel(
+    ioDispatcher: CoroutineDispatcher,
     private val repository: PlayersRepository,
     private val playerDataManager: PlayerDataManager,
-) : ViewModel() {
+) : BaseViewModel<List<String>>(ioDispatcher) {
 
-    val opponentName: LiveData<String> get() = _opponentName
-    private val _opponentName = MutableLiveData<String>()
-
-    fun fetchOpponentName() {
-        viewModelScope.launch {
-            try {
-                val response = repository.getPlayerName()
-                _opponentName.value = response.results.first()
-            } catch (e: Exception) {
-                Log.i("ERROR API", e.toString())
-            }
-        }
-    }
+    fun fetchOpponentName() = launchDataLoad { repository.getPlayerName().results }
 
     fun savePlayer(player: String) {
         if (player.isNotEmpty()) playerDataManager.savePlayerData(PlayerData(player))
     }
 
-    fun getPlayerList(): List<PlayerData> {
-        return playerDataManager.getPlayerList().toList()
-    }
+    fun getPlayerList() = playerDataManager.getPlayerList().toList()
 }

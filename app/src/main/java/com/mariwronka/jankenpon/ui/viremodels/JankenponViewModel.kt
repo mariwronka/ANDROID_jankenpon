@@ -1,91 +1,67 @@
 package com.mariwronka.jankenpon.ui.viremodels
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.mariwronka.jankenpon.data.source.local.PlayerDataManager
-import com.mariwronka.jankenpon.data.source.remote.entity.JankenponResult
 import com.mariwronka.jankenpon.domain.entity.WinnerType
 import com.mariwronka.jankenpon.domain.entity.WinnerType.Companion.fromWinnerType
+import com.mariwronka.jankenpon.domain.entity.WinnerType.DEFEAT
+import com.mariwronka.jankenpon.domain.entity.WinnerType.VICTORY
 import com.mariwronka.jankenpon.domain.repository.JankenponRepository
-import kotlinx.coroutines.launch
+import com.mariwronka.jankenpon.ui.common.BaseViewModel
+import com.mariwronka.jankenpon.ui.states.GameState
+import kotlinx.coroutines.CoroutineDispatcher
 
 class JankenponViewModel(
     private val repository: JankenponRepository,
     private val playerDataManager: PlayerDataManager,
-) : ViewModel() {
+    ioDispatcher: CoroutineDispatcher,
+) : BaseViewModel<GameState>(ioDispatcher) {
 
-    private val _roundsPlayed = MutableLiveData<Int>()
-
-    val finalRoundsPlayed: LiveData<WinnerType> get() = _finalRoundsPlayed
-    private val _finalRoundsPlayed = MutableLiveData<WinnerType>()
-
-    val gameResult: LiveData<JankenponResult?> get() = _gameResult
-    private val _gameResult = MutableLiveData<JankenponResult?>()
-
-    val pointsPlayer: LiveData<Int> get() = _pointsPlayer
-    private val _pointsPlayer = MutableLiveData<Int>()
-
-    val pointsOpponent: LiveData<Int> get() = _pointsOpponent
-    private val _pointsOpponent = MutableLiveData<Int>()
-
-    fun playGame(guess: String, player: String, opponent: String) {
-        viewModelScope.launch {
-            try {
-                val response = repository.playGame(guess)
-                _gameResult.value = response
-                updatePlayerPoints(response.winner)
-            } catch (e: Exception) {
-                _gameResult.value = null
-            }
-        }
+    private companion object {
+        private const val MAX_ROUNDS = 3
     }
 
-    private fun updatePlayerPoints(winner: String) {
-        when (winner.fromWinnerType()) {
-            WinnerType.VICTORY -> {
-                _pointsPlayer.value = _pointsPlayer.value?.plus(1)
-                checkRoundsPlayed()
+    private var roundsPlayed = 1
+    private var playerPoints = 0
+    private var opponentPoints = 0
+
+    private var finalRoundsWinner: WinnerType? = null
+
+    fun playGame(guess: String) {
+        launchDataLoad {
+            val result = repository.playGame(guess)
+
+            when (result.winner.fromWinnerType()) {
+                VICTORY -> playerPoints += 1
+                DEFEAT -> opponentPoints += 1
+                else -> Unit
             }
 
-            WinnerType.DEFEAT -> {
-                _pointsOpponent.value = _pointsOpponent.value?.plus(1)
-                checkRoundsPlayed()
-            }
+            checkRoundsPlayed()
 
-            else -> Unit
+            GameState(
+                result = result,
+                playerPoints = playerPoints,
+                opponentPoints = opponentPoints,
+                roundWinner = result.winner.fromWinnerType()
+            )
         }
-    }
-
-    fun savePlayerPoints(playerName: String) {
-        playerDataManager.updatePlayerPoints(playerName)
     }
 
     private fun checkRoundsPlayed() {
-        _roundsPlayed.value?.let { rounds ->
-            _roundsPlayed.value = rounds.plus(1)
-            Log.e("ROUNDS", rounds.toString())
-            if (rounds >= 3) {
-                checkRoundWinner()
-                initRoundsPlayed()
-            }
-        }
-    }
-
-    private fun checkRoundWinner() {
-        _pointsOpponent.value?.let { opponent ->
-            _pointsPlayer.value?.let { player ->
-                if (opponent > player) _finalRoundsPlayed.value = WinnerType.DEFEAT
-                else _finalRoundsPlayed.value = WinnerType.VICTORY
-            }
+        roundsPlayed += 1
+        if (roundsPlayed > MAX_ROUNDS) {
+            finalRoundsWinner = if (opponentPoints > playerPoints) DEFEAT else VICTORY
+            initRoundsPlayed()
         }
     }
 
     fun initRoundsPlayed() {
-        _roundsPlayed.value = 1
-        _pointsOpponent.value = 0
-        _pointsPlayer.value = 0
+        roundsPlayed = 1
+        playerPoints = 0
+        opponentPoints = 0
+    }
+
+    fun savePlayerPoints(playerName: String) {
+        playerDataManager.updatePlayerPoints(playerName)
     }
 }

@@ -2,8 +2,14 @@ package com.mariwronka.jankenpon.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.mariwronka.jankenpon.R
 import com.mariwronka.jankenpon.databinding.ActivityHomeBinding
+import com.mariwronka.jankenpon.ui.common.BaseUiState
 import com.mariwronka.jankenpon.ui.viremodels.PlayersViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,26 +33,52 @@ class HomeActivity : AppCompatActivity() {
         _binding = null
     }
 
+    override fun onPause() {
+        super.onPause()
+        viewModel.postIdle()
+    }
+
     private fun initObservers() {
-        viewModel.opponentName.observe(this) { opponent ->
-            viewModel.savePlayer(opponent)
-            startActivity(
-                Intent(this, GameActivity::class.java).apply {
-                    putExtra("PLAYER_NAME", binding.tietPlayer.text.toString())
-                    putExtra("OPPONENT_NAME", opponent)
+        lifecycleScope.launchWhenStarted {
+            viewModel.baseUiState.collect { state ->
+                when (state) {
+                    is BaseUiState.Idle -> binding.viewLoading.root.visibility = GONE
+
+                    is BaseUiState.Loading -> binding.viewLoading.root.visibility = VISIBLE
+
+                    is BaseUiState.Success -> {
+                        val opponent = state.data.firstOrNull().orEmpty()
+                        viewModel.savePlayer(opponent)
+                        startActivity(
+                            Intent(this@HomeActivity, GameActivity::class.java).apply {
+                                putExtra("PLAYER_NAME", binding.viewLogin.tietPlayer.text.toString())
+                                putExtra("OPPONENT_NAME", opponent)
+                            },
+                        )
+                    }
+
+                    is BaseUiState.Error -> {
+                        Toast.makeText(
+                            baseContext,
+                            getString(R.string.activity_login_error),
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                    }
+
+                    else -> Unit
                 }
-            )
+            }
         }
     }
 
     private fun setOnClickListeners() {
-        binding.btStartGame.setOnClickListener {
-            val playerName = binding.tietPlayer.text.toString()
+        binding.viewLogin.btStartGame.setOnClickListener {
+            val playerName = binding.viewLogin.tietPlayer.text.toString()
             viewModel.savePlayer(playerName)
             viewModel.fetchOpponentName()
         }
 
-        binding.btRanking.setOnClickListener {
+        binding.viewLogin.btRanking.setOnClickListener {
             startActivity(Intent(this, RankingActivity::class.java))
         }
     }

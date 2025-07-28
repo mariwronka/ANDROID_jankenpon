@@ -4,6 +4,7 @@
     <string name="activity_login_input_player">Nome do Jogador</string>
     <string name="activity_login_button_star">Iniciar Jogada</string>
     <string name="activity_login_button_ranking">Ver Ranking</string>
+    <string name="activity_login_error">Erro ao buscar nome do oponente</string>
 
     <string name="activity_start_game_name_player">Olá, %s</string>
     <string name="activity_start_game_name_opponent">Seu oponente, %s escolheu:</string>

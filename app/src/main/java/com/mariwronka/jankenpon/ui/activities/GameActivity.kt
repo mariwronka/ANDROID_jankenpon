@@ -4,177 +4,132 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.appcompat.widget.AppCompatTextView
-import com.google.android.material.textview.MaterialTextView
+import androidx.lifecycle.lifecycleScope
 import com.mariwronka.jankenpon.R
+import com.mariwronka.jankenpon.databinding.ActivityGameBinding
 import com.mariwronka.jankenpon.domain.entity.JankenponType
+import com.mariwronka.jankenpon.domain.entity.JankenponType.*
 import com.mariwronka.jankenpon.domain.entity.JankenponType.Companion.fromJankenponType
-import com.mariwronka.jankenpon.domain.entity.JankenponType.PAPER
-import com.mariwronka.jankenpon.domain.entity.JankenponType.ROCK
-import com.mariwronka.jankenpon.domain.entity.JankenponType.SCISSORS
 import com.mariwronka.jankenpon.domain.entity.WinnerType
-import com.mariwronka.jankenpon.domain.entity.WinnerType.Companion.fromWinnerType
+import com.mariwronka.jankenpon.ui.common.BaseUiState
+import com.mariwronka.jankenpon.ui.states.GameState
 import com.mariwronka.jankenpon.ui.viremodels.JankenponViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GameActivity : AppCompatActivity() {
 
-    private val viewModel: JankenponViewModel by viewModel()
+    private var _binding: ActivityGameBinding? = null
+    private val binding get() = _binding!!
 
-    private lateinit var namePlayer: MaterialTextView
-    private lateinit var descriptionOpponent: MaterialTextView
-    private lateinit var imageOpponentsChoice: AppCompatImageView
-    private lateinit var imageHandRock: AppCompatImageView
-    private lateinit var imageHandPaper: AppCompatImageView
-    private lateinit var imageHandScissors: AppCompatImageView
-    private lateinit var ivBgMessage: AppCompatImageView
-    private lateinit var textMessage: MaterialTextView
-    private lateinit var textRankNamePlayerName: AppCompatTextView
-    private lateinit var textRankNamePlayerPoints: AppCompatTextView
-    private lateinit var textRankNameOpponentName: AppCompatTextView
-    private lateinit var textRankNameOpponentPoints: AppCompatTextView
+    private val viewModel: JankenponViewModel by viewModel()
 
     private var extraNamePlayer: String? = null
     private var extraNameOpponent: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_game)
-        setUpFindViewByIds()
+        _binding = ActivityGameBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         setUpTextViewNames()
-        initObserversViewModel()
         setOnClickListeners()
+        observeGameState()
         viewModel.initRoundsPlayed()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     private fun setUpTextViewNames() {
         extraNamePlayer = intent.getStringExtra("PLAYER_NAME")
         extraNameOpponent = intent.getStringExtra("OPPONENT_NAME")
-        extraNamePlayer?.let { player ->
-            namePlayer.text = getString(R.string.activity_start_game_name_player, player)
-            textRankNamePlayerName.text = player
-        }
-        extraNameOpponent?.let { opponent ->
-            descriptionOpponent.text = getString(R.string.activity_start_game_name_opponent, opponent)
-            textRankNameOpponentName.text = opponent
-        }
+
+        binding.tvNamePlayer.text =
+            getString(R.string.activity_start_game_name_player, extraNamePlayer)
+        binding.textDescriptionOpponent.text =
+            getString(R.string.activity_start_game_name_opponent, extraNameOpponent)
+        binding.includeRankingView.textRankNameOpponentName.text = extraNameOpponent
     }
-
-    private fun initObserversViewModel() {
-        viewModel.finalRoundsPlayed.observe(this) {
-            if (it == WinnerType.VICTORY) viewModel.savePlayerPoints(extraNamePlayer.orEmpty())
-            if (it == WinnerType.DEFEAT) viewModel.savePlayerPoints(extraNameOpponent.orEmpty())
-
-            imageOpponentsChoice.setImageResource(R.drawable.ic_none)
-            imageHandRock.setImageResource(R.drawable.ic_rock_selected)
-            imageHandPaper.setImageResource(R.drawable.ic_paper_selected)
-            imageHandScissors.setImageResource(R.drawable.ic_scissors_selected)
-
-            ivBgMessage.visibility = View.GONE
-            textMessage.visibility = View.GONE
-        }
-
-        viewModel.pointsPlayer.observe(this) { points ->
-            textRankNamePlayerPoints.text = points.toString()
-        }
-
-        viewModel.pointsOpponent.observe(this) { points ->
-            textRankNameOpponentPoints.text = points.toString()
-        }
-
-        viewModel.gameResult.observe(this) { result ->
-            result?.let { result ->
-                when (result.winner.fromWinnerType() ?: WinnerType.DRAW) {
-                    WinnerType.VICTORY -> {
-                        ivBgMessage.setImageResource(R.drawable.bg_message_victory)
-                        textMessage.text = getString(R.string.activity_start_game_message_victory)
-                        textMessage.setTextAppearance(R.style.TextViewMessageStyle_Victory)
-
-                    }
-
-                    WinnerType.DEFEAT -> {
-                        ivBgMessage.setImageResource(R.drawable.bg_message_defeat)
-                        textMessage.text = getString(R.string.activity_start_game_message_defeat)
-                        textMessage.setTextAppearance(R.style.TextViewMessageStyle_Defeat)
-                    }
-
-                    WinnerType.DRAW -> {
-                        ivBgMessage.setImageResource(R.drawable.bg_message_draw)
-                        textMessage.text = getString(R.string.activity_start_game_message_draw)
-                        textMessage.setTextAppearance(R.style.TextViewMessageStyle_Draw)
-                    }
-                }
-
-                imageOpponentsChoice.setImageResource(
-                    when (result.cpu.fromJankenponType() ?: ROCK) {
-                        ROCK -> R.drawable.ic_rock_selected
-                        PAPER -> R.drawable.ic_paper_selected
-                        SCISSORS -> R.drawable.ic_scissors_selected
-                    }
-                )
-
-                ivBgMessage.visibility = View.VISIBLE
-                textMessage.visibility = View.VISIBLE
-            } ?: run {
-                Toast.makeText(
-                    this,
-                    getString(R.string.activity_start_game_message_error),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-    }
-
-    private fun setUpFindViewByIds() {
-        namePlayer = findViewById(R.id.tv_name_player)
-        descriptionOpponent = findViewById(R.id.text_description_opponent)
-        imageOpponentsChoice = findViewById(R.id.image_opponents_choice)
-        imageHandRock = findViewById(R.id.image_hand_rock)
-        imageHandPaper = findViewById(R.id.image_hand_paper)
-        imageHandScissors = findViewById(R.id.image_hand_scissors)
-        ivBgMessage = findViewById(R.id.iv_bg_message)
-        textMessage = findViewById(R.id.text_message)
-        textRankNamePlayerName = findViewById(R.id.text_rank_name_player_name)
-        textRankNamePlayerPoints = findViewById(R.id.text_rank_name_player_points)
-        textRankNameOpponentName = findViewById(R.id.text_rank_name_opponent_name)
-        textRankNameOpponentPoints = findViewById(R.id.text_rank_name_opponent_points)
-    }
-
 
     private fun setOnClickListeners() {
-        imageHandRock.setOnClickListener { makeIconsRockPaperScissors(ROCK) }
-        imageHandPaper.setOnClickListener { makeIconsRockPaperScissors(PAPER) }
-        imageHandScissors.setOnClickListener { makeIconsRockPaperScissors(SCISSORS) }
+        binding.imageHandRock.setOnClickListener { onPlayerChoice(ROCK) }
+        binding.imageHandPaper.setOnClickListener { onPlayerChoice(PAPER) }
+        binding.imageHandScissors.setOnClickListener { onPlayerChoice(SCISSORS) }
     }
 
-    private fun makeIconsRockPaperScissors(selectedOption: JankenponType) {
-        viewModel.playGame(
-            guess = selectedOption.tag,
-            player = extraNamePlayer.orEmpty(),
-            opponent = extraNameOpponent.orEmpty()
-        )
+    private fun onPlayerChoice(choice: JankenponType) {
+        viewModel.playGame(choice.tag)
+        binding.imageHandRock.setImageResource(ROCK.iconFor(choice))
+        binding.imageHandPaper.setImageResource(PAPER.iconFor(choice))
+        binding.imageHandScissors.setImageResource(SCISSORS.iconFor(choice))
+    }
 
-        when (selectedOption) {
-            ROCK -> {
-                imageHandRock.setImageResource(R.drawable.ic_rock_selected)
-                imageHandPaper.setImageResource(R.drawable.ic_paper_disabled)
-                imageHandScissors.setImageResource(R.drawable.ic_scissors_disabled)
-            }
+    private fun observeGameState() {
+        lifecycleScope.launch {
+            viewModel.baseUiState.collectLatest { state ->
+                when (state) {
+                    is BaseUiState.Loading -> {
+                        // Se quiser, mostrar um loading
+                    }
 
-            PAPER -> {
-                imageHandRock.setImageResource(R.drawable.ic_rock_disabled)
-                imageHandPaper.setImageResource(R.drawable.ic_paper_selected)
-                imageHandScissors.setImageResource(R.drawable.ic_scissors_disabled)
-            }
+                    is BaseUiState.Success -> {
+                        renderGame(state.data)
+                    }
 
-            SCISSORS -> {
-                imageHandRock.setImageResource(R.drawable.ic_rock_disabled)
-                imageHandPaper.setImageResource(R.drawable.ic_paper_disabled)
-                imageHandScissors.setImageResource(R.drawable.ic_scissors_selected)
+                    is BaseUiState.Error -> {
+                        Toast.makeText(
+                            this@GameActivity,
+                            getString(R.string.activity_start_game_message_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
 
+                    is BaseUiState.Idle -> Unit
+                }
             }
         }
     }
 
+    private fun renderGame(state: GameState) = with(binding) {
+        includeRankingView.textRankNamePlayerPoints.text = state.playerPoints.toString()
+        includeRankingView.textRankNameOpponentPoints.text = state.opponentPoints.toString()
+
+        val opponentType = state.result.cpu.fromJankenponType() ?: ROCK
+        imageOpponentsChoice.setImageResource(opponentType.selectedIcon)
+
+        val roundWinner = state.roundWinner ?: WinnerType.DRAW
+        showResultMessage(roundWinner)
+
+        ivBgMessage.visibility = View.VISIBLE
+        textMessage.visibility = View.VISIBLE
+
+        if (state.finalRoundWinner != null) {
+            if (state.finalRoundWinner == WinnerType.VICTORY) {
+                viewModel.savePlayerPoints(extraNamePlayer.orEmpty())
+            } else if (state.finalRoundWinner == WinnerType.DEFEAT) {
+                viewModel.savePlayerPoints(extraNameOpponent.orEmpty())
+            }
+
+            resetGameUI()
+        }
+    }
+
+    private fun resetGameUI() = with(binding) {
+        imageOpponentsChoice.setImageResource(R.drawable.ic_none)
+        imageHandRock.setImageResource(R.drawable.ic_rock_selected)
+        imageHandPaper.setImageResource(R.drawable.ic_paper_selected)
+        imageHandScissors.setImageResource(R.drawable.ic_scissors_selected)
+        ivBgMessage.visibility = View.GONE
+        textMessage.visibility = View.GONE
+    }
+
+    private fun showResultMessage(winner: WinnerType) = with(binding) {
+        ivBgMessage.setImageResource(winner.backgroundRes)
+        textMessage.setText(winner.messageTextRes)
+        textMessage.setTextAppearance(winner.textAppearanceRes)
+    }
 }

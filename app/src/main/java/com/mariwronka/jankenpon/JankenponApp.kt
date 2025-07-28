@@ -2,6 +2,7 @@ package com.mariwronka.jankenpon
 
 import android.app.Application
 import com.mariwronka.jankenpon.di.AppModule
+import com.mariwronka.jankenpon.di.DispatcherModule
 import com.mariwronka.jankenpon.di.MapperModule
 import com.mariwronka.jankenpon.di.NetworkModule
 import com.mariwronka.jankenpon.di.RepositoryModule
@@ -14,7 +15,14 @@ class JankenponApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@JankenponApp)
-            modules(AppModule, NetworkModule, RepositoryModule, MapperModule, ViewModelModule)
+            modules(
+                AppModule,
+                DispatcherModule,
+                NetworkModule,
+                RepositoryModule,
+                MapperModule,
+                ViewModelModule
+            )
         }
     }
 }

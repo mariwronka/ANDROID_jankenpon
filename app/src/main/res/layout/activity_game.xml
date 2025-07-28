@@ -130,6 +130,7 @@
         app:srcCompat="@drawable/ic_scissors_selected" />
 
     <include
+        android:id="@+id/include_ranking_view"
         layout="@layout/view_ranking_game_names_item"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
