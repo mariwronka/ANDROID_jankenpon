@@ -40,17 +40,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setOnClickListeners() {
-        binding.run {
-            btStartGame.setOnClickListener {
-                val playerName = tietPlayer.text.toString()
-                viewModel.savePlayer(playerName)
-                viewModel.fetchOpponentName()
-            }
+        binding.btStartGame.setOnClickListener {
+            val playerName = binding.tietPlayer.text.toString()
+            viewModel.savePlayer(playerName)
+            viewModel.fetchOpponentName()
+        }
 
-            btRanking.setOnClickListener {
-//            startActivity(Intent(this, RankingActivity::class.java))
-            }
+        binding.btRanking.setOnClickListener {
+            startActivity(Intent(this, RankingActivity::class.java))
         }
     }
-
 }

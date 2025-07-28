@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Jankenpon"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activities.RankingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.GameActivity"
             android:exported="true" />
         <activity
