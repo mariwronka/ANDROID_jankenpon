@@ -5,6 +5,8 @@
 
     <style name="Theme.Jankenpon" parent="Base.Theme.Jankenpon" />
 
+    <style name="Theme.Jankenpon.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar"/>
+
     <style name="CustomMaterialButton" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/white</item>
         <item name="shapeAppearance">@style/RoundedButtonShape</item>

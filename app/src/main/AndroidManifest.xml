@@ -23,7 +23,11 @@
         <activity
             android:name=".ui.activities.HomeActivity"
             android:exported="true"
-            android:theme="@style/Theme.Jankenpon">
+            android:theme="@style/Theme.Jankenpon" />
+        <activity
+            android:name=".ui.activities.HomeActivityCompose"
+            android:exported="true"
+            android:theme="@style/Theme.Jankenpon.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
