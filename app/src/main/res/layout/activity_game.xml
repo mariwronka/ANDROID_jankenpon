@@ -4,136 +4,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_logo"
-    android:padding="24dp">
+    android:background="@drawable/bg_jankenpon">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_name_player"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_center_horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textSize="20sp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/button_yellow"
+        android:letterSpacing="0.08"
+        android:paddingHorizontal="64dp"
+        android:text="@string/stop"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/wins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+        android:letterSpacing="0.08"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Olá Diego" />
+        tools:text="Vitórias: 3" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/text_description_opponent"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/image_opponents_choice"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="@+id/image_opponents_choice"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name_player"
-        tools:text="Seu oponente, Fulano de tal escolheu:" />
+        android:src="@drawable/ic_rock_left"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/image_opponents_choice"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/image_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_rock_right"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_center_horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_description_opponent"
-        app:srcCompat="@drawable/ic_none" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_center_horizontal" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/image_versus"
+    <com.mariwronka.jankenpon.ui.component.SelectOptionJankenponComponent
+        android:id="@+id/select_option_jankenpon"
         android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="@+id/image_opponents_choice"
-        app:layout_constraintStart_toStartOf="@+id/image_opponents_choice"
-        app:layout_constraintTop_toBottomOf="@+id/image_opponents_choice"
-        app:srcCompat="@drawable/ic_vc" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_bg_message"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/image_versus"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/image_versus"
-        app:srcCompat="@drawable/bg_message_victory"
-        tools:visibility="visible" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/text_message"
-        style="@style/TextViewMessageStyle.Victory"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/activity_start_game_message_victory"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_bg_message"
-        app:layout_constraintEnd_toEndOf="@+id/image_hand_scissors"
-        app:layout_constraintStart_toStartOf="@+id/image_hand_rock"
-        app:layout_constraintTop_toTopOf="@+id/iv_bg_message"
-        app:textAllCaps="true"
-        tools:visibility="visible" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/text_user_choice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/activity_start_game_options"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/image_hand_scissors"
-        app:layout_constraintStart_toStartOf="@+id/image_hand_rock"
-        app:layout_constraintTop_toBottomOf="@+id/image_versus" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/image_hand_rock"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:tag="rock"
-        app:layout_constraintBottom_toBottomOf="@+id/image_hand_paper"
-        app:layout_constraintEnd_toStartOf="@+id/image_hand_paper"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/image_hand_paper"
-        app:srcCompat="@drawable/ic_rock_selected" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/image_hand_paper"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_marginTop="32dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:tag="paper"
-        app:layout_constraintEnd_toStartOf="@+id/image_hand_scissors"
-        app:layout_constraintStart_toEndOf="@+id/image_hand_rock"
-        app:layout_constraintTop_toBottomOf="@+id/text_user_choice"
-        app:srcCompat="@drawable/ic_paper_selected" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/image_hand_scissors"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:tag="scissors"
-        app:layout_constraintBottom_toBottomOf="@+id/image_hand_paper"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/image_hand_paper"
-        app:layout_constraintTop_toTopOf="@+id/image_hand_paper"
-        app:srcCompat="@drawable/ic_scissors_selected" />
-
-    <include
-        android:id="@+id/include_ranking_view"
-        layout="@layout/view_ranking_game_names_item"
+        android:layout_marginHorizontal="8dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_hand_paper" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_center_horizontal" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

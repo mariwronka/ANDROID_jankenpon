@@ -14,4 +14,7 @@
     <color name="victory">#27AE60</color>
     <color name="defeat">#EB5757</color>
     <color name="draw">#6A3EFF</color>
+
+    <color name="button_yellow">#FFFF4C</color>
+    <color name="text_gray">#333333</color>
 </resources>

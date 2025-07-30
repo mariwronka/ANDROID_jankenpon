@@ -18,5 +18,6 @@
     <string name="activity_ranking_points">Pontos</string>
     <string name="activity_back_ranking">Voltar</string>
     <string name="activity_start_game_message_final_rounds">Final da Partida</string>
+    <string name="stop">Parar</string>
 
 </resources>

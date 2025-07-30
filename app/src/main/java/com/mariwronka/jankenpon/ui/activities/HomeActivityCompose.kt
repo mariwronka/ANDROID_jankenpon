@@ -1,5 +1,7 @@
 package com.mariwronka.jankenpon.ui.activities
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,12 +18,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,7 +36,7 @@ class HomeActivityCompose : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            HomeScreen()
+            HomeScreen(LocalContext.current)
         }
     }
 }
@@ -43,12 +45,12 @@ class HomeActivityCompose : ComponentActivity() {
 @Composable
 fun HomeScreenPreview() {
     JankenponTheme {
-        HomeScreen()
+        HomeScreen(LocalContext.current)
     }
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(current: Context) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -80,14 +82,14 @@ fun HomeScreen() {
 
             Button(
                 onClick = {
-                    // TODO: Desenvolver comportamento
+                    current.startActivity(Intent(current, GameActivity::class.java))
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Yellow)
-            ) {
-                Text(
+            ) {Text(
                     text = "Vamos começar",
                     color = Color.Black,
                     fontSize = 16.sp,
+                    letterSpacing = 0.8.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
@@ -106,6 +108,7 @@ fun HomeScreen() {
                     color = Color.Black,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
+                    letterSpacing = 0.8.sp,
                     modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)
                 )
             }
@@ -115,7 +118,9 @@ fun HomeScreen() {
             text = "Versão 1.2",
             color = Color.White,
             fontSize = 16.sp,
-            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 32.dp),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 32.dp),
         )
     }
 }
