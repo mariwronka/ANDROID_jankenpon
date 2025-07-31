@@ -90,7 +90,7 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <com.mariwronka.jankenpon.ui.component.GameResultAlertView
+    <com.mariwronka.jankenpon.ui.component.GameResultAlertComponent
         android:id="@+id/view_result_alert"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
