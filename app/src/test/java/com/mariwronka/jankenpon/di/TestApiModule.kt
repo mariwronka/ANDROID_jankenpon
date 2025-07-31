@@ -24,5 +24,4 @@ fun provideTestApiModule(mockWebServer: MockWebServer) = module {
 
     single<JankenponMapper> { JankenponMapperImpl() }
 
-    single<JankenponRepository> { JankenponRepositoryImpl(get(), get()) }
 }
