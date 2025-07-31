@@ -40,8 +40,8 @@
         android:id="@+id/wins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:letterSpacing="0.08"
         android:textColor="@android:color/black"
         android:textSize="14sp"
@@ -77,5 +77,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_center_horizontal" />
+
+    <include
+        android:id="@+id/view_loading"
+        layout="@layout/view_loading" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

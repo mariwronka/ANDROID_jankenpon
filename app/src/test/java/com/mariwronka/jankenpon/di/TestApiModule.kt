@@ -2,9 +2,7 @@ package com.mariwronka.jankenpon.di
 
 import com.mariwronka.jankenpon.data.mapper.JankenponMapper
 import com.mariwronka.jankenpon.data.mapper.JankenponMapperImpl
-import com.mariwronka.jankenpon.data.repository.JankenponRepositoryImpl
 import com.mariwronka.jankenpon.data.source.remote.api.JankenponApi
-import com.mariwronka.jankenpon.domain.repository.JankenponRepository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.mockwebserver.MockWebServer

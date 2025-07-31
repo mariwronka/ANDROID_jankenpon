@@ -19,6 +19,8 @@
     <string name="activity_back_ranking">Voltar</string>
     <string name="activity_start_game_message_final_rounds">Final da Partida</string>
     <string name="stop">Parar</string>
+    <string name="restart">Começar de novo</string>
+    <string name="no_victories">Nenhuma vitória</string>
     <plurals name="player_score_count">
         <item quantity="one">1 vitória</item>
         <item quantity="other">%d vitórias</item>

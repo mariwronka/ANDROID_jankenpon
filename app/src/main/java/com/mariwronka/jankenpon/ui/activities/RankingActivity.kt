@@ -22,8 +22,9 @@ class RankingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityRankingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        configureToolbar()
-        observeScores()
+        setUpToolbar()
+        configureResetGame()
+        setUpObservers()
     }
 
     override fun onDestroy() {
@@ -31,24 +32,36 @@ class RankingActivity : AppCompatActivity() {
         _binding = null
     }
 
-    private fun configureToolbar() {
+    private fun setUpToolbar() {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
     }
 
-    private fun observeScores() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.youWins.collect { count ->
-                    binding.playerUser.setVictoryCount(count)
-                }
-            }
+    private fun configureResetGame() {
+        binding.buttonRestart.setOnClickListener {
+            resetGame()
         }
+    }
+
+    private fun resetGame() {
+        viewModel.resetGame()
+    }
+
+    private fun setUpObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.computerWins.collect { count ->
-                    binding.playerComputer.setVictoryCount(count)
+                launch {
+                    viewModel.youWins.collect { count ->
+                        println(">> observe YOU: $count")
+                        binding.playerUser.setVictoryCount(count)
+                    }
+                }
+                launch {
+                    viewModel.computerWins.collect { count ->
+                        println(">> observe COMPUTER: $count")
+                        binding.playerComputer.setVictoryCount(count)
+                    }
                 }
             }
         }
