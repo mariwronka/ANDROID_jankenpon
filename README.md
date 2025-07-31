@@ -1,3 +1,11 @@
+[![Build](https://img.shields.io/badge/build-passing-brightgreen)]()
+[![Kotlin](https://img.shields.io/badge/kotlin-100%25-blueviolet)]()
+[![Koin](https://img.shields.io/badge/Koin-3.5.3-yellowgreen)]()
+[![Detekt](https://img.shields.io/badge/code_style-Spotless%20%2B%20Detekt-orange)]()
+[![Test Coverage](https://img.shields.io/badge/test-MockK%20%2B%20JUnit4%20%2B%20Robolectric-blue)]()
+[![Compose](https://img.shields.io/badge/Jetpack%20Compose-in%20progress-lightgrey)]()
+
+
 # 👊🏻 ✋🏻✌🏻 Jankenpon - Android Case Study
 
 A versão japonesa do clássico jogo de escolhas entre pedra, papel e tesoura, usado para decisões ou como brincadeira entre duas pessoas. Os jogadores contam em voz alta “Jan-ken-pon!” e mostram simultaneamente um dos três gestos com as mãos. Cada gesto vence um e perde para outro, seguindo a lógica: pedra quebra tesoura, tesoura corta papel, papel embrulha pedra. A proposta é simples: um jogo de "Pedra, Papel e Tesoura" (Jankenpon), mas estruturado com boas práticas, arquitetura moderna, testes e atenção à qualidade de código.
@@ -87,5 +95,5 @@ O projeto conta com testes unitários para:
 - Internacionalização (strings em inglês)
 - Tela de configurações e reset de placar
 
-##  Autoria
-- Desenvolvido por Mari Wronka 👩🏻‍🦰
+##  Desenvolvido com 💛 por Mari Wronka 👩🏻‍🦰
+[GitHub](https://www.linkedin.com/in/mari-wronka-a853a9a0/) | [LinkedIn](https://github.com/mariwronka)
