@@ -65,7 +65,6 @@ fun HomeScreen(current: Context) {
     ) {
         BackgroundImage()
         ContentColumn(current)
-        AppVersionText()
     }
 }
 
@@ -151,15 +150,5 @@ fun AnimatedLogo(modifier: Modifier = Modifier) {
             .height(300.dp)
             .width(300.dp),
         contentScale = ContentScale.Fit,
-    )
-}
-
-@Composable
-private fun AppVersionText(modifier: Modifier = Modifier) {
-    Text(
-        text = "Versão 1.2",
-        color = Color.White,
-        fontSize = 16.sp,
-        modifier = modifier.padding(bottom = 32.dp),
     )
 }
