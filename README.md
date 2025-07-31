@@ -3,8 +3,9 @@
 A versão japonesa do clássico jogo de escolhas entre pedra, papel e tesoura, usado para decisões ou como brincadeira entre duas pessoas. Os jogadores contam em voz alta “Jan-ken-pon!” e mostram simultaneamente um dos três gestos com as mãos. Cada gesto vence um e perde para outro, seguindo a lógica: pedra quebra tesoura, tesoura corta papel, papel embrulha pedra. A proposta é simples: um jogo de "Pedra, Papel e Tesoura" (Jankenpon), mas estruturado com boas práticas, arquitetura moderna, testes e atenção à qualidade de código.
 
 ## 🎮 Demonstração
+![HomeActivity](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmJseWhrZ2hsMXZjeTByYWtuM2l4eWRnbXM0ZjQ5bzEwYjBqdDNvbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/E3kfOn8K78bftk04Te/giphy.gif)
+![Gameplay](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3FmazF2Mzd5eTl1bThsMjRjbGkyOW9lNmc4Z3RxcTNxazhvOHNydiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/8ZnKx2C44s2ApxWsSm/giphy.gif) 
 
-![Gameplay](https://github.com/mariwronka/ANDROID_jankenpon/assets/preview.gif)  
 *Confira o funcionamento completo do app, incluindo animações, placar e alerta de vitória.*
 
 - Escolha entre Pedra, Papel e Tesoura
@@ -16,17 +17,17 @@ A versão japonesa do clássico jogo de escolhas entre pedra, papel e tesoura, u
 
 ## 🛠️ Tecnologias e Padrões
 
-| Categoria          | Ferramentas e Abordagens                                               |
-|--------------------|------------------------------------------------------------------------|
-| Linguagem          | Kotlin                                                                 |
-| Arquitetura        | MVVM + StateFlow + Clean Architecture                                  |
-| UI                 | View System + Compose                    |
-| Injeção de Dependência | Koin                                                              |
-| Persistência       | Jetpack DataStore                                                      |
-| Consumo de API     | Retrofit + OkHttp + Moshi                                              |
-| Testes             | JUnit4 + MockK + Robolectric + KoinTestRule                            |
-| Qualidade de Código| Detekt + Spotless (futuramente Kover)                                                   |
-| CI                 | Gradle Tasks (ideia para o futuro)          
+| Categoria              | Ferramentas e Abordagens                                               |
+|------------------------|------------------------------------------------------------------------|
+| Linguagem              | Kotlin                                                                 |
+| Arquitetura            | MVVM + StateFlow + Clean Architecture                                  |
+| UI                     | View System + Compose                                                  |
+| Injeção de Dependência | Koin                                                                   |
+| Persistência           | Jetpack DataStore                                                      |
+| Consumo de API         | Retrofit + OkHttp + Moshi                                              |
+| Testes                 | JUnit4 + MockK + Robolectric + KoinTestRule                            |
+| Qualidade de Código    | Detekt + Spotless (futuramente Kover)                                  |
+| CI                     | Gradle Tasks (ideia para o futuro)                                     |       
 
 ## 🚀 Como rodar o projeto
 
