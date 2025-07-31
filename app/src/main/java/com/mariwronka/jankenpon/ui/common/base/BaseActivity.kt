@@ -1,8 +1,11 @@
-package com.mariwronka.jankenpon.ui.common
+package com.mariwronka.jankenpon.ui.common.base
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.AnimRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Lifecycle
@@ -57,5 +60,9 @@ abstract class BaseActivity<viewBinding : ViewBinding> : AppCompatActivity() {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.hideSoftInputFromWindow(it.windowToken, 0)
         }
+    }
+
+    fun applyAnimationTo(view: View, @AnimRes animRes: Int) {
+        view.startAnimation(AnimationUtils.loadAnimation(this, animRes))
     }
 }

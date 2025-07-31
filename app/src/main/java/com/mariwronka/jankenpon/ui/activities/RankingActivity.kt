@@ -3,7 +3,7 @@ package com.mariwronka.jankenpon.ui.activities
 import android.os.Bundle
 import com.mariwronka.jankenpon.R
 import com.mariwronka.jankenpon.databinding.ActivityRankingBinding
-import com.mariwronka.jankenpon.ui.common.BaseActivity
+import com.mariwronka.jankenpon.ui.common.base.BaseActivity
 import com.mariwronka.jankenpon.ui.viremodels.PlayersViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel

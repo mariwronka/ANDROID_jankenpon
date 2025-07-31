@@ -9,7 +9,7 @@ import com.mariwronka.jankenpon.domain.entity.WinnerType.DEFEAT
 import com.mariwronka.jankenpon.domain.entity.WinnerType.DRAW
 import com.mariwronka.jankenpon.domain.entity.WinnerType.VICTORY
 import com.mariwronka.jankenpon.domain.repository.PlayersRepository
-import com.mariwronka.jankenpon.ui.common.BaseViewModel
+import com.mariwronka.jankenpon.ui.common.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed

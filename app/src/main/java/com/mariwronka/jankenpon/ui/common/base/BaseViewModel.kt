@@ -1,4 +1,4 @@
-package com.mariwronka.jankenpon.ui.common
+package com.mariwronka.jankenpon.ui.common.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
