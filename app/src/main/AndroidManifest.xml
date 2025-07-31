@@ -12,27 +12,29 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Jankenpon"
+        android:theme="@style/Theme.Jankenpon.NoActionBar"
         tools:targetApi="31">
+
         <activity
             android:name=".ui.activities.RankingActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.activities.GameActivity"
             android:exported="true" />
-        <activity
-            android:name=".ui.activities.HomeActivity"
-            android:exported="true"
-            android:theme="@style/Theme.Jankenpon" />
+
         <activity
             android:name=".ui.activities.HomeActivityCompose"
-            android:exported="true"
-            android:theme="@style/Theme.Jankenpon.NoActionBar">
+            android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
     </application>
+
 
 </manifest>

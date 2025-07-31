@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_jankenpon">
+    android:background="@drawable/bg_default">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.45" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_center_vertical"
@@ -35,20 +35,6 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/wins"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:letterSpacing="0.08"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Vitórias: 3" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image_top"
@@ -85,6 +71,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="64dp"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,8 +79,24 @@
         app:layout_constraintTop_toTopOf="@+id/guideline_center_horizontal" />
 
     <include
+        android:id="@+id/view_text_animate"
+        layout="@layout/view_game_text_animate"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <include
         android:id="@+id/view_loading"
         layout="@layout/view_loading"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <com.mariwronka.jankenpon.ui.component.GameResultAlertView
+        android:id="@+id/view_result_alert"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

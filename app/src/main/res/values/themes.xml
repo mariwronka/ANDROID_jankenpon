@@ -5,7 +5,11 @@
 
     <style name="Theme.Jankenpon" parent="Base.Theme.Jankenpon" />
 
-    <style name="Theme.Jankenpon.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+    <style name="Theme.Jankenpon.NoActionBar" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:fitsSystemWindows">false</item>
+    </style>
 
     <style name="CustomMaterialButton" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/white</item>

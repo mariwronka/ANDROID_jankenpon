@@ -2,6 +2,9 @@ package com.mariwronka.jankenpon.data.mapper
 
 import com.mariwronka.jankenpon.data.source.remote.entity.JankenponResponse
 import com.mariwronka.jankenpon.data.source.remote.entity.JankenponResult
+import com.mariwronka.jankenpon.domain.entity.JankenponType
+import com.mariwronka.jankenpon.domain.entity.JankenponType.Companion.fromTag
+import com.mariwronka.jankenpon.domain.entity.JankenponType.ROCK
 
 interface JankenponMapper {
     fun map(response: JankenponResponse): JankenponResult
@@ -10,10 +13,9 @@ interface JankenponMapper {
 class JankenponMapperImpl : JankenponMapper {
     override fun map(response: JankenponResponse): JankenponResult {
         return JankenponResult(
-            cpu = response.cpu,
-            player = response.player.orEmpty(),
             winner = response.winner,
-            move = response.move.orEmpty(),
+            player = fromTag(response.player) ?: ROCK,
+            cpu = fromTag(response.cpu) ?: ROCK,
         )
     }
 }

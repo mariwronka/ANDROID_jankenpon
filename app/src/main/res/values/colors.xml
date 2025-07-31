@@ -16,5 +16,8 @@
     <color name="draw">#6A3EFF</color>
 
     <color name="button_yellow">#FFFF4C</color>
+    <color name="button_victory">#E5FFBE</color>
+    <color name="button_defeat">#FFC3C2</color>
+    <color name="button_draw">#FCFFA0</color>
     <color name="default_gray">#333333</color>
 </resources>

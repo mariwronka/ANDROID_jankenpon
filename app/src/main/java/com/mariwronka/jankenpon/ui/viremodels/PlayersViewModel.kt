@@ -1,6 +1,7 @@
 package com.mariwronka.jankenpon.ui.viremodels
 
 import androidx.lifecycle.viewModelScope
+import com.mariwronka.jankenpon.data.source.remote.entity.JankenponResult
 import com.mariwronka.jankenpon.domain.entity.PlayerType.COMPUTER
 import com.mariwronka.jankenpon.domain.entity.PlayerType.YOU
 import com.mariwronka.jankenpon.domain.entity.WinnerType
@@ -9,7 +10,7 @@ import com.mariwronka.jankenpon.domain.entity.WinnerType.DEFEAT
 import com.mariwronka.jankenpon.domain.entity.WinnerType.DRAW
 import com.mariwronka.jankenpon.domain.entity.WinnerType.VICTORY
 import com.mariwronka.jankenpon.domain.repository.PlayersRepository
-import com.mariwronka.jankenpon.ui.common.BaseViewModel
+import com.mariwronka.jankenpon.ui.common.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
@@ -32,6 +33,9 @@ class PlayersViewModel(private val repository: PlayersRepository) : BaseViewMode
         initialValue = 0,
     )
 
+    private val _jankenponResult = MutableSharedFlow<JankenponResult>()
+    val jankenponResult: SharedFlow<JankenponResult> get() = _jankenponResult
+
     private val _winnerType = MutableSharedFlow<WinnerType>()
     val winnerType: SharedFlow<WinnerType> get() = _winnerType
 
@@ -41,18 +45,19 @@ class PlayersViewModel(private val repository: PlayersRepository) : BaseViewMode
     fun playGame(guess: String) {
         launchDataLoad {
             repository.playGame(guess).let { result ->
+                _jankenponResult.emit(result)
                 result.winner.fromWinnerType()?.let { winner ->
-                    _winnerType.emit(winner)
-
                     when (winner) {
                         VICTORY -> {
                             val updated = repository.incrementVictory(YOU)
                             println(">> YOU VICTORY -> total: $updated")
                         }
+
                         DEFEAT -> {
                             val updated = repository.incrementVictory(COMPUTER)
                             println(">> COMPUTER VICTORY -> total: $updated")
                         }
+
                         DRAW -> println(">> Empate")
                     }
                 }

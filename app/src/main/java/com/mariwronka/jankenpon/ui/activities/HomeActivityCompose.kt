@@ -5,6 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,12 +18,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -65,7 +72,7 @@ fun HomeScreen(current: Context) {
 @Composable
 private fun BackgroundImage() {
     Image(
-        painter = painterResource(id = R.drawable.bg_jankenpon),
+        painter = painterResource(id = R.drawable.bg_default),
         contentDescription = null,
         modifier = Modifier.fillMaxSize(),
         contentScale = ContentScale.FillBounds,
@@ -83,14 +90,7 @@ private fun ContentColumn(current: Context) {
     ) {
         Spacer(modifier = Modifier.height(80.dp))
 
-        Image(
-            painter = painterResource(id = R.drawable.logo_jankenpon),
-            contentDescription = "Logo Jankenpon",
-            modifier = Modifier
-                .padding(bottom = 32.dp)
-                .height(300.dp)
-                .width(300.dp),
-        )
+        AnimatedLogo()
 
         Button(
             onClick = {
@@ -102,6 +102,7 @@ private fun ContentColumn(current: Context) {
                 text = "Vamos começar",
                 color = Color.Black,
                 fontSize = 16.sp,
+                letterSpacing = 0.8.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             )
@@ -119,11 +120,38 @@ private fun ContentColumn(current: Context) {
                 text = "Ranking",
                 color = Color.Black,
                 fontSize = 16.sp,
+                letterSpacing = 0.8.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
             )
         }
     }
+}
+
+@Composable
+fun AnimatedLogo(modifier: Modifier = Modifier) {
+    val infiniteTransition = rememberInfiniteTransition(label = "logo wiggle")
+
+    val offsetX by infiniteTransition.animateFloat(
+        initialValue = -2f,
+        targetValue = 2f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 400),
+            repeatMode = RepeatMode.Reverse,
+        ),
+        label = "offsetX",
+    )
+
+    Image(
+        painter = painterResource(id = R.drawable.logo_jankenpon),
+        contentDescription = "Logo Jankenpon",
+        modifier = modifier
+            .offset(x = offsetX.dp)
+            .padding(bottom = 32.dp)
+            .height(300.dp)
+            .width(300.dp),
+        contentScale = ContentScale.Fit,
+    )
 }
 
 @Composable

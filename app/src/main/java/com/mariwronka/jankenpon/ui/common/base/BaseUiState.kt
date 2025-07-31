@@ -1,4 +1,4 @@
-package com.mariwronka.jankenpon.ui.common
+package com.mariwronka.jankenpon.ui.common.base
 
 sealed class BaseUiState<out T> {
     data object Idle : BaseUiState<Nothing>()

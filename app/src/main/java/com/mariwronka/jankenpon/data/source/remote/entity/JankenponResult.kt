@@ -1,8 +1,9 @@
 package com.mariwronka.jankenpon.data.source.remote.entity
 
+import com.mariwronka.jankenpon.domain.entity.JankenponType
+
 data class JankenponResult(
-    val cpu: String,
-    val player: String,
     val winner: String,
-    val move: String,
+    val player: JankenponType,
+    val cpu: JankenponType
 )
