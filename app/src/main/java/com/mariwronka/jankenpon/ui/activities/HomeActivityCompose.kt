@@ -54,20 +54,20 @@ fun HomeScreen(current: Context) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Transparent)
+            .background(Color.Transparent),
     ) {
         Image(
             painter = painterResource(id = R.drawable.bg_jankenpon),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds
+            contentScale = ContentScale.FillBounds,
         )
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 32.dp),
             verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.height(80.dp))
 
@@ -77,21 +77,21 @@ fun HomeScreen(current: Context) {
                 modifier = Modifier
                     .padding(bottom = 32.dp)
                     .height(300.dp)
-                    .width(300.dp)
+                    .width(300.dp),
             )
 
             Button(
                 onClick = {
                     current.startActivity(Intent(current, GameActivity::class.java))
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Yellow)
-            ) {Text(
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Yellow),
+            ) {
+                Text(
                     text = "Vamos começar",
                     color = Color.Black,
                     fontSize = 16.sp,
-                    letterSpacing = 0.8.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 )
             }
 
@@ -99,17 +99,16 @@ fun HomeScreen(current: Context) {
 
             Button(
                 onClick = {
-                    // TODO: Desenvolver comportamento
+                    current.startActivity(Intent(current, RankingActivity::class.java))
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
             ) {
                 Text(
                     text = "Ranking",
                     color = Color.Black,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    letterSpacing = 0.8.sp,
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
                 )
             }
         }

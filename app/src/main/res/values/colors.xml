@@ -16,5 +16,5 @@
     <color name="draw">#6A3EFF</color>
 
     <color name="button_yellow">#FFFF4C</color>
-    <color name="text_gray">#333333</color>
+    <color name="default_gray">#333333</color>
 </resources>

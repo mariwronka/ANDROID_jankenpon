@@ -1,22 +1,33 @@
 package com.mariwronka.jankenpon.ui.viremodels
 
-import com.mariwronka.jankenpon.data.source.local.PlayerData
-import com.mariwronka.jankenpon.data.source.local.PlayerDataManager
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.mariwronka.jankenpon.domain.entity.PlayerType
+import com.mariwronka.jankenpon.domain.entity.PlayerType.COMPUTER
+import com.mariwronka.jankenpon.domain.entity.PlayerType.YOU
 import com.mariwronka.jankenpon.domain.repository.PlayersRepository
-import com.mariwronka.jankenpon.ui.common.BaseViewModel
-import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
-class PlayersViewModel(
-    ioDispatcher: CoroutineDispatcher,
-    private val repository: PlayersRepository,
-    private val playerDataManager: PlayerDataManager,
-) : BaseViewModel<List<String>>(ioDispatcher) {
+class PlayersViewModel(private val repository: PlayersRepository) : ViewModel() {
 
-    fun fetchOpponentName() = launchDataLoad { repository.getPlayerName().results }
+    val youWins: StateFlow<Int> get() = _youWins
+    private val _youWins: StateFlow<Int> = repository.getVictoryCount(YOU).stateIn(
+        scope = viewModelScope,
+        started = Eagerly,
+        initialValue = 0
+    )
 
-    fun savePlayer(player: String) {
-        if (player.isNotEmpty()) playerDataManager.savePlayerData(PlayerData(player))
+    val computerWins: StateFlow<Int> get() = _computerWins
+    private val _computerWins: StateFlow<Int> = repository.getVictoryCount(COMPUTER).stateIn(
+        scope = viewModelScope,
+        started = Eagerly,
+        initialValue = 0
+    )
+
+    fun onRoundEnd(winner: PlayerType) = viewModelScope.launch {
+        repository.incrementVictory(winner)
     }
-
-    fun getPlayerList() = playerDataManager.getPlayerList().toList()
 }

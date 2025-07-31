@@ -1,57 +1,50 @@
 package com.mariwronka.jankenpon.data.source.local
 
 import android.content.Context
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+
+private val Context.playerDataStore: DataStore<Preferences> by preferencesDataStore(
+    name = "player_prefs",
+)
+
+private object Keys {
+    val YOU_WINS = intPreferencesKey("you_wins")
+    val COMPUTER_WINS = intPreferencesKey("computer_wins")
+}
 
 class PlayerDataManager(context: Context) {
+    private val ds = context.playerDataStore
 
-    companion object {
-        private const val MAX_TOP_PLAYERS = 8
-    }
-
-    private val sharedPreferences = context.getSharedPreferences("player_data", Context.MODE_PRIVATE)
-    private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
-    private val type = Types.newParameterizedType(MutableList::class.java, PlayerData::class.java)
-    private val adapter = moshi.adapter<MutableList<PlayerData>>(type)
-
-    fun savePlayerData(playerData: PlayerData) {
-        val playerList: MutableList<PlayerData> = getPlayerList()
-        if (!playerList.any { it.playerName == playerData.playerName }) {
-            playerList.add(playerData)
-            savePlayerList(playerList)
+    val rawFlow: Flow<Pair<Int, Int>> = ds.data
+        .map { prefs ->
+            val you = prefs[Keys.YOU_WINS] ?: 0
+            val comp = prefs[Keys.COMPUTER_WINS] ?: 0
+            you to comp
         }
+
+    suspend fun incrementYouWins(): Int {
+        var newValue = 0
+        ds.edit { prefs ->
+            val current = prefs[Keys.YOU_WINS] ?: 0
+            newValue = current + 1
+            prefs[Keys.YOU_WINS] = newValue
+        }
+        return newValue
     }
 
-    fun getPlayerList(): MutableList<PlayerData> {
-        val json = sharedPreferences.getString("players", null)
-        val list = json?.let { adapter.fromJson(it) } ?: mutableListOf()
-
-        val sortedList = list.sortedByDescending { it.points }
-        val topPlayers = sortedList.take(MAX_TOP_PLAYERS).toMutableList()
-
-        sharedPreferences.edit().putString("players", adapter.toJson(topPlayers)).apply()
-        return topPlayers
-    }
-
-    private fun savePlayerList(playerList: List<PlayerData>) {
-        sharedPreferences.edit().putString("players", adapter.toJson(playerList.toMutableList())).apply()
-    }
-
-    fun getPlayerPoints(playerName: String): Int {
-        return getPlayerList().find { it.playerName == playerName }?.points ?: 0
-    }
-
-    fun updatePlayerPoints(playerName: String) {
-        val points = getPlayerPoints(playerName)
-        deletePlayer(playerName)
-        savePlayerData(PlayerData(playerName, points + 1))
-    }
-
-    private fun deletePlayer(playerName: String) {
-        val playerList = getPlayerList()
-        playerList.removeIf { it.playerName == playerName }
-        savePlayerList(playerList)
+    suspend fun incrementComputerWins(): Int {
+        var newValue = 0
+        ds.edit { prefs ->
+            val current = prefs[Keys.COMPUTER_WINS] ?: 0
+            newValue = current + 1
+            prefs[Keys.COMPUTER_WINS] = newValue
+        }
+        return newValue
     }
 }

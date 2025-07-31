@@ -8,5 +8,5 @@ import org.koin.dsl.module
 
 val RepositoryModule = module {
     single<JankenponRepository> { JankenponRepositoryImpl(get(), get()) }
-    single<PlayersRepository> { PlayersRepositoryImpl(get(), get()) }
+    single<PlayersRepository> { PlayersRepositoryImpl(get()) }
 }

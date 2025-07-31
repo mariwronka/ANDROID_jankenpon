@@ -1,6 +1,5 @@
 package com.mariwronka.jankenpon.ui.viremodels
 
-import com.mariwronka.jankenpon.data.source.local.PlayerDataManager
 import com.mariwronka.jankenpon.domain.entity.WinnerType
 import com.mariwronka.jankenpon.domain.entity.WinnerType.Companion.fromWinnerType
 import com.mariwronka.jankenpon.domain.entity.WinnerType.DEFEAT
@@ -8,13 +7,8 @@ import com.mariwronka.jankenpon.domain.entity.WinnerType.VICTORY
 import com.mariwronka.jankenpon.domain.repository.JankenponRepository
 import com.mariwronka.jankenpon.ui.common.BaseViewModel
 import com.mariwronka.jankenpon.ui.states.GameState
-import kotlinx.coroutines.CoroutineDispatcher
 
-class JankenponViewModel(
-    private val repository: JankenponRepository,
-    private val playerDataManager: PlayerDataManager,
-    ioDispatcher: CoroutineDispatcher,
-) : BaseViewModel<GameState>(ioDispatcher) {
+class JankenponViewModel(private val repository: JankenponRepository) : BaseViewModel<GameState>() {
 
     private companion object {
         private const val MAX_ROUNDS = 3
@@ -26,6 +20,8 @@ class JankenponViewModel(
 
     private var finalRoundsWinner: WinnerType? = null
 
+
+    // TODO: Verificar se é necessário
     fun playGame(guess: String) {
         launchDataLoad {
             val result = repository.playGame(guess)
@@ -42,7 +38,7 @@ class JankenponViewModel(
                 result = result,
                 playerPoints = playerPoints,
                 opponentPoints = opponentPoints,
-                roundWinner = result.winner.fromWinnerType()
+                roundWinner = result.winner.fromWinnerType(),
             )
         }
     }
@@ -62,6 +58,5 @@ class JankenponViewModel(
     }
 
     fun savePlayerPoints(playerName: String) {
-        playerDataManager.updatePlayerPoints(playerName)
     }
 }

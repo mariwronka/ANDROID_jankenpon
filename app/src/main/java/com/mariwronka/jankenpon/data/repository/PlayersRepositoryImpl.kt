@@ -1,15 +1,22 @@
 package com.mariwronka.jankenpon.data.repository
 
-import com.mariwronka.jankenpon.data.mapper.PlayerNameMapper
-import com.mariwronka.jankenpon.data.source.remote.api.JankenponApi
-import com.mariwronka.jankenpon.domain.entity.PlayerName
+import com.mariwronka.jankenpon.data.source.local.PlayerDataManager
+import com.mariwronka.jankenpon.domain.entity.PlayerType
 import com.mariwronka.jankenpon.domain.repository.PlayersRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class PlayersRepositoryImpl(
-    private val jankenponApi: JankenponApi,
-    private val mapper: PlayerNameMapper,
+    private val manager: PlayerDataManager,
 ) : PlayersRepository {
-    override suspend fun getPlayerName(): PlayerName {
-        return mapper.map(jankenponApi.getPlayerName())
+
+    override fun getVictoryCount(type: PlayerType): Flow<Int> =
+        manager.rawFlow.map { (you, comp) ->
+            if (type == PlayerType.YOU) you
+            else comp
+        }
+
+    override suspend fun incrementVictory(type: PlayerType): Int {
+        return if (type == PlayerType.YOU) manager.incrementYouWins() else manager.incrementComputerWins()
     }
 }

@@ -2,8 +2,8 @@ package com.mariwronka.jankenpon
 
 import android.app.Application
 import com.mariwronka.jankenpon.di.AppModule
+import com.mariwronka.jankenpon.di.DataStoreModule
 import com.mariwronka.jankenpon.di.DispatcherModule
-import com.mariwronka.jankenpon.di.MapperModule
 import com.mariwronka.jankenpon.di.NetworkModule
 import com.mariwronka.jankenpon.di.RepositoryModule
 import com.mariwronka.jankenpon.di.ViewModelModule
@@ -20,8 +20,8 @@ class JankenponApp : Application() {
                 DispatcherModule,
                 NetworkModule,
                 RepositoryModule,
-                MapperModule,
-                ViewModelModule
+                ViewModelModule,
+                DataStoreModule,
             )
         }
     }

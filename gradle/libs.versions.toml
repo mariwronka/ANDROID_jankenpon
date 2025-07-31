@@ -1,6 +1,7 @@
 [versions]
 # Android
 agp = "8.6.1"
+datastorePreferences = "1.1.7"
 kotlin = "1.9.0"
 composeBom = "2024.05.00"
 
@@ -47,6 +48,7 @@ adsMobileSdk = "0.18.0-beta01"
 [libraries]
 # AndroidX core e lifecycle
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }

@@ -13,7 +13,7 @@ import org.koin.core.qualifier.named
 
 const val IO_DISPATCHER = "IO"
 
-abstract class BaseViewModel<T>(protected val ioDispatcher: CoroutineDispatcher): ViewModel(), KoinComponent {
+abstract class BaseViewModel<T> : ViewModel(), KoinComponent {
 
     private val _uiState = MutableStateFlow<BaseUiState<T>>(BaseUiState.Idle)
     val baseUiState: StateFlow<BaseUiState<T>> = _uiState.asStateFlow()

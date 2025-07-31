@@ -10,4 +10,3 @@ data class GameState(
     val roundWinner: WinnerType? = null,
     val finalRoundWinner: WinnerType? = null,
 )
-

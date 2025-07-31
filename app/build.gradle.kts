@@ -25,7 +25,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 
@@ -123,6 +126,9 @@ dependencies {
 
     // Qualidade de Código
     detektPlugins(libs.detekt.formatting)
+
+    // Persistencia de dados
+    implementation(libs.androidx.datastore.preferences)
 }
 
 detekt {

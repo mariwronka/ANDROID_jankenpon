@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PlayerScoreView">
+        <attr name="playerIcon" format="reference" />
+        <attr name="victoryCount" format="integer" />
+        <attr name="playerType" format="enum">
+            <enum name="user" value="0" />
+            <enum name="computer" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>
