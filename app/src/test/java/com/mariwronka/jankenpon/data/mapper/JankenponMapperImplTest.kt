@@ -1,16 +1,11 @@
 package com.mariwronka.jankenpon.data.mapper
 
-import androidx.test.filters.SmallTest
 import com.mariwronka.jankenpon.data.source.remote.entity.JankenponResponse
 import com.mariwronka.jankenpon.domain.entity.JankenponType.PAPER
 import com.mariwronka.jankenpon.domain.entity.JankenponType.ROCK
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 
-@SmallTest
-@RunWith(JUnit4::class)
 class JankenponMapperImplTest {
 
     private val mapper = JankenponMapperImpl()

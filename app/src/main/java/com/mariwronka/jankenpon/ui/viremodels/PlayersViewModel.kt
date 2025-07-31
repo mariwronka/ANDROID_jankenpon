@@ -48,17 +48,9 @@ class PlayersViewModel(private val repository: PlayersRepository) : BaseViewMode
                 _jankenponResult.emit(result)
                 result.winner.fromWinnerType()?.let { winner ->
                     when (winner) {
-                        VICTORY -> {
-                            val updated = repository.incrementVictory(YOU)
-                            println(">> YOU VICTORY -> total: $updated")
-                        }
-
-                        DEFEAT -> {
-                            val updated = repository.incrementVictory(COMPUTER)
-                            println(">> COMPUTER VICTORY -> total: $updated")
-                        }
-
-                        DRAW -> println(">> Empate")
+                        VICTORY -> repository.incrementVictory(YOU)
+                        DEFEAT -> repository.incrementVictory(COMPUTER)
+                        DRAW -> Unit
                     }
                 }
             }

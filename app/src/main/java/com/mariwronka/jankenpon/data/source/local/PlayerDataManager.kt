@@ -26,7 +26,6 @@ class PlayerDataManager(context: Context) {
         .map { prefs ->
             val you = prefs[Keys.YOU_WINS] ?: 0
             val comp = prefs[Keys.COMPUTER_WINS] ?: 0
-            println(">> rawFlow emitindo: you=$you comp=$comp")
             you to comp
         }
 
@@ -36,7 +35,6 @@ class PlayerDataManager(context: Context) {
             val current = prefs[Keys.YOU_WINS] ?: 0
             newValue = current + 1
             prefs[Keys.YOU_WINS] = newValue
-            println(">> incrementYouWins(): $newValue")
         }
         return newValue
     }
@@ -47,7 +45,6 @@ class PlayerDataManager(context: Context) {
             val current = prefs[Keys.COMPUTER_WINS] ?: 0
             newValue = current + 1
             prefs[Keys.COMPUTER_WINS] = newValue
-            println(">> incrementComputerWins(): $newValue")
         }
         return newValue
     }
