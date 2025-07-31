@@ -1,6 +1,6 @@
 {
-  "cpu": "rock",
-  "player": "paper",
-  "winner": "player",
-  "move": "paper beats rock"
+    "cpu": "rock",
+    "player": "paper",
+    "winner": "player",
+    "move": "paper beats rock"
 }

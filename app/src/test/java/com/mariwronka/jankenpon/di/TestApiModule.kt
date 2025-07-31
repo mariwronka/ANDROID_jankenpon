@@ -23,5 +23,4 @@ fun provideTestApiModule(mockWebServer: MockWebServer) = module {
     single<JankenponApi> { get<Retrofit>().create(JankenponApi::class.java) }
 
     single<JankenponMapper> { JankenponMapperImpl() }
-
 }

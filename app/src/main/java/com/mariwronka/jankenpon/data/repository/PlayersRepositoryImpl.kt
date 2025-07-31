@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 class PlayersRepositoryImpl(
-    private val api: JankenponApi,
-    private val mapper: JankenponMapper,
+    val api: JankenponApi,
+    val mapper: JankenponMapper,
     private val manager: PlayerDataManager,
 ) : PlayersRepository {
 
