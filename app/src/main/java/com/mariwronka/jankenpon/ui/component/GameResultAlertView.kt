@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import com.mariwronka.jankenpon.databinding.ViewGameResultAlertBinding
 import com.mariwronka.jankenpon.databinding.ViewGameResultAlertBinding.inflate
 import com.mariwronka.jankenpon.domain.entity.WinnerType
@@ -12,7 +12,7 @@ import com.mariwronka.jankenpon.ui.common.extensions.blockTouch
 import com.mariwronka.jankenpon.ui.common.extensions.gone
 import com.mariwronka.jankenpon.ui.common.extensions.visible
 
-class GameResultAlertView @JvmOverloads constructor(
+class GameResultAlertComponente @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
 ) : ConstraintLayout(context, attrs) {
@@ -31,7 +31,8 @@ class GameResultAlertView @JvmOverloads constructor(
     fun show(winnerType: WinnerType) {
         binding.root.setBackgroundResource(winnerType.backgroundRes)
         binding.textTitle.setText(winnerType.messageTextRes)
-        binding.buttonPlayAgain.setBackgroundColor(ContextCompat.getColor(context, winnerType.buttonColorRes))
+        binding.textTitle.setTextColor(getColor(context, winnerType.titleTextColorRes))
+        binding.buttonPlayAgain.setBackgroundColor(getColor(context, winnerType.buttonColorRes))
         blockTouch()
         visible()
     }

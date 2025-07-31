@@ -13,7 +13,7 @@ import com.mariwronka.jankenpon.domain.entity.OptionsJankenpon
 
 private const val PREVIEW_OPTION_COUNT = 3
 
-class SelectOptionJankenponComponent @JvmOverloads constructor(
+class SelectOptionComponent @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,

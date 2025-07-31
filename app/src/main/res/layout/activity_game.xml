@@ -66,7 +66,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.mariwronka.jankenpon.ui.component.SelectOptionJankenponComponent
+    <com.mariwronka.jankenpon.ui.component.SelectOptionComponent
         android:id="@+id/select_option_jankenpon"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

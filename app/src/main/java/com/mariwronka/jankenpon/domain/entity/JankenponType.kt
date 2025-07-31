@@ -11,7 +11,7 @@ enum class JankenponType(
     val title: String,
     @DrawableRes val selectedIcon: Int,
     @DrawableRes val leftIcon: Int,
-    @DrawableRes val rightIcon: Int
+    @DrawableRes val rightIcon: Int,
 ) {
     ROCK("rock", "Pedra", R.drawable.ic_rock_selected, R.drawable.ic_rock_left, R.drawable.ic_rock_right),
     PAPER("paper", "Papel", R.drawable.ic_paper_selected, R.drawable.ic_paper_left, R.drawable.ic_paper_right),
