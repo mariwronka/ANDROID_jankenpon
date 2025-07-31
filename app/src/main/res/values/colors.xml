@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg_logo">#F4F4F4</color>
+    <color name="bg_logo">#4CB5E2</color>
     <color name="primary_color">#82D546</color>
     <color name="primary_color_button">#62B427</color>
     <color name="secondary_color">#63519F</color>
