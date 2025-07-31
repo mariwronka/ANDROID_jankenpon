@@ -12,7 +12,7 @@ import com.mariwronka.jankenpon.ui.common.extensions.blockTouch
 import com.mariwronka.jankenpon.ui.common.extensions.gone
 import com.mariwronka.jankenpon.ui.common.extensions.visible
 
-class GameResultAlertComponente @JvmOverloads constructor(
+class GameResultAlertComponent @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
 ) : ConstraintLayout(context, attrs) {
