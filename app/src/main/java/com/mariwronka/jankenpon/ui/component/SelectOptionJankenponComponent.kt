@@ -5,14 +5,18 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
-import com.mariwronka.jankenpon.R
+import com.mariwronka.jankenpon.R.drawable.bg_option_selected
+import com.mariwronka.jankenpon.R.drawable.bg_option_unselected
+import com.mariwronka.jankenpon.R.drawable.ic_rock_selected
 import com.mariwronka.jankenpon.databinding.ViewChoiceOptionItemBinding
 import com.mariwronka.jankenpon.domain.entity.OptionsJankenpon
+
+private const val PREVIEW_OPTION_COUNT = 3
 
 class SelectOptionJankenponComponent @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     private var selectedTag: String? = null
@@ -22,7 +26,13 @@ class SelectOptionJankenponComponent @JvmOverloads constructor(
 
     init {
         orientation = HORIZONTAL
-        val previewOptions = (1..3).map { OptionsJankenpon(R.drawable.ic_rock_selected, "Opção $it", "tag_$it") }
+        val previewOptions = (1..PREVIEW_OPTION_COUNT).map {
+            OptionsJankenpon(
+                ic_rock_selected,
+                "Opção $it",
+                "tag_$it",
+            )
+        }
         setOptions(previewOptions)
     }
 
@@ -36,7 +46,7 @@ class SelectOptionJankenponComponent @JvmOverloads constructor(
                 binding.textTitle.text = option.title
 
                 binding.root.setOnClickListener {
-                    selectOption(option.tag, binding.root)
+                    selectOption(option.tag)
                 }
 
                 binding.root.tag = option.tag
@@ -46,24 +56,18 @@ class SelectOptionJankenponComponent @JvmOverloads constructor(
         }
     }
 
-    private fun selectOption(tag: String, clickedView: View) {
+    private fun selectOption(tag: String) {
         optionViews.forEach {
-            val isSelected = it.tag == tag
             it.setBackgroundResource(
-                if (isSelected) R.drawable.bg_option_selected
-                else R.drawable.bg_option_unselected
+                if (it.tag == tag) bg_option_selected else bg_option_unselected,
             )
         }
         selectedTag = tag
         onOptionSelected?.invoke(tag)
     }
 
-    fun getSelected(): String? = selectedTag
-
     fun clearSelection() {
         selectedTag = null
-        optionViews.forEach {
-            it.setBackgroundResource(R.drawable.bg_option_unselected)
-        }
+        optionViews.forEach { it.setBackgroundResource(bg_option_unselected) }
     }
 }

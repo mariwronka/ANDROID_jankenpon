@@ -1,41 +1,24 @@
 package com.mariwronka.jankenpon.ui.activities
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import com.mariwronka.jankenpon.R
 import com.mariwronka.jankenpon.databinding.ActivityRankingBinding
+import com.mariwronka.jankenpon.ui.common.BaseActivity
 import com.mariwronka.jankenpon.ui.viremodels.PlayersViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-// TODO: Criar base activity evitando lifecycleScope na view
-class RankingActivity : AppCompatActivity() {
-
-    private var _binding: ActivityRankingBinding? = null
-    private val binding get() = _binding!!
+class RankingActivity : BaseActivity<ActivityRankingBinding>() {
 
     private val viewModel: PlayersViewModel by viewModel()
 
+    override fun bind() = ActivityRankingBinding.inflate(layoutInflater)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityRankingBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setUpToolbar()
+        setUpToolbar(binding.toolbar, getString(R.string.rankin))
         configureResetGame()
         setUpObservers()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
-    private fun setUpToolbar() {
-        binding.toolbar.setNavigationOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
     }
 
     private fun configureResetGame() {
@@ -49,19 +32,15 @@ class RankingActivity : AppCompatActivity() {
     }
 
     private fun setUpObservers() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.youWins.collect { count ->
-                        println(">> observe YOU: $count")
-                        binding.playerUser.setVictoryCount(count)
-                    }
+        launchRepeatOnLifecycle {
+            launch {
+                viewModel.youWins.collect {
+                    binding.playerUser.setVictoryCount(it)
                 }
-                launch {
-                    viewModel.computerWins.collect { count ->
-                        println(">> observe COMPUTER: $count")
-                        binding.playerComputer.setVictoryCount(count)
-                    }
+            }
+            launch {
+                viewModel.computerWins.collect {
+                    binding.playerComputer.setVictoryCount(it)
                 }
             }
         }

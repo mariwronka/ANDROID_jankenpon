@@ -31,12 +31,10 @@ class PlayersRepositoryImpl(
     }
 
     override suspend fun incrementVictory(type: PlayerType) {
-        if (type == YOU) manager.incrementYouWins()
-        else manager.incrementComputerWins()
+        type.takeIf { it == YOU }?.let { manager.incrementYouWins() } ?: manager.incrementComputerWins()
     }
 
     override suspend fun clearVictoryCount(type: PlayerType) {
         manager.clearVictoryCount(type)
     }
-
 }

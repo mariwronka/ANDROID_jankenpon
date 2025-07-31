@@ -5,9 +5,11 @@ import com.mariwronka.jankenpon.domain.repository.PlayersRepository
 import org.koin.dsl.module
 
 val RepositoryModule = module {
-    single<PlayersRepository> { PlayersRepositoryImpl(
-        api = get(),
-        mapper = get(),
-        manager = get())
+    single<PlayersRepository> {
+        PlayersRepositoryImpl(
+            api = get(),
+            mapper = get(),
+            manager = get(),
+        )
     }
 }

@@ -56,70 +56,82 @@ fun HomeScreen(current: Context) {
             .fillMaxSize()
             .background(Color.Transparent),
     ) {
+        BackgroundImage()
+        ContentColumn(current)
+        AppVersionText()
+    }
+}
+
+@Composable
+private fun BackgroundImage() {
+    Image(
+        painter = painterResource(id = R.drawable.bg_jankenpon),
+        contentDescription = null,
+        modifier = Modifier.fillMaxSize(),
+        contentScale = ContentScale.FillBounds,
+    )
+}
+
+@Composable
+private fun ContentColumn(current: Context) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 32.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Spacer(modifier = Modifier.height(80.dp))
+
         Image(
-            painter = painterResource(id = R.drawable.bg_jankenpon),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds,
-        )
-        Column(
+            painter = painterResource(id = R.drawable.logo_jankenpon),
+            contentDescription = "Logo Jankenpon",
             modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 32.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .padding(bottom = 32.dp)
+                .height(300.dp)
+                .width(300.dp),
+        )
+
+        Button(
+            onClick = {
+                current.startActivity(Intent(current, GameActivity::class.java))
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Yellow),
         ) {
-            Spacer(modifier = Modifier.height(80.dp))
-
-            Image(
-                painter = painterResource(id = R.drawable.logo_jankenpon),
-                contentDescription = "Logo Jankenpon",
-                modifier = Modifier
-                    .padding(bottom = 32.dp)
-                    .height(300.dp)
-                    .width(300.dp),
+            Text(
+                text = "Vamos começar",
+                color = Color.Black,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             )
-
-            Button(
-                onClick = {
-                    current.startActivity(Intent(current, GameActivity::class.java))
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Yellow),
-            ) {
-                Text(
-                    text = "Vamos começar",
-                    color = Color.Black,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = {
-                    current.startActivity(Intent(current, RankingActivity::class.java))
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-            ) {
-                Text(
-                    text = "Ranking",
-                    color = Color.Black,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
-                )
-            }
         }
 
-        Text(
-            text = "Versão 1.2",
-            color = Color.White,
-            fontSize = 16.sp,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 32.dp),
-        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                current.startActivity(Intent(current, RankingActivity::class.java))
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+        ) {
+            Text(
+                text = "Ranking",
+                color = Color.Black,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
+            )
+        }
     }
+}
+
+@Composable
+private fun AppVersionText(modifier: Modifier = Modifier) {
+    Text(
+        text = "Versão 1.2",
+        color = Color.White,
+        fontSize = 16.sp,
+        modifier = modifier.padding(bottom = 32.dp),
+    )
 }
