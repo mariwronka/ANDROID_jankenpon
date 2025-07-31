@@ -1,10 +1,6 @@
 package com.mariwronka.jankenpon.ui.activities
 
 import android.os.Bundle
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import androidx.annotation.DrawableRes
 import com.mariwronka.jankenpon.R
 import com.mariwronka.jankenpon.databinding.ActivityGameBinding
 import com.mariwronka.jankenpon.domain.entity.JankenponType
@@ -53,8 +49,8 @@ class GameActivity : BaseActivity<ActivityGameBinding>() {
         }
 
         binding.viewResultAlert.onPlayAgain = {
-            animateImageChange(binding.imageTop, ROCK.leftIcon)
-            animateImageChange(binding.imageBottom, ROCK.rightIcon)
+            binding.imageTop.setImageResource(ROCK.leftIcon)
+            binding.imageBottom.setImageResource(ROCK.rightIcon)
             startHandsLoopAnimation()
             binding.viewResultAlert.hide()
         }
@@ -66,48 +62,38 @@ class GameActivity : BaseActivity<ActivityGameBinding>() {
 
     private fun setUpObservers() {
         launchRepeatOnLifecycle {
-            launch { observeLoading() }
-            launch { observeResult() }
-            launch { observeResetEvent() }
-        }
-    }
-
-    private suspend fun observeLoading() {
-        viewModel.baseUiState.collect { state ->
-            binding.viewLoading.root.visibleOrGone(state is Loading)
-        }
-    }
-
-    private suspend fun observeResult() {
-        viewModel.jankenponResult.collect { result ->
-            stopHandsAnimationAndMeet()
-            result.winner.fromWinnerType()?.let { winner ->
-                binding.imageTop.setImageResource(result.cpu.leftIcon)
-                binding.imageBottom.setImageResource(result.player.rightIcon)
-                binding.selectOptionJankenpon.clearSelection()
-                binding.viewResultAlert.show(winner)
+            launch {
+                viewModel.baseUiState.collect { state ->
+                    binding.viewLoading.root.visibleOrGone(state is Loading)
+                }
             }
-        }
-    }
 
-    private suspend fun observeResetEvent() {
-        viewModel.resetEvent.collect {
-            binding.selectOptionJankenpon.clearSelection()
+            launch {
+                viewModel.jankenponResult.collect { result ->
+                    stopHandsAnimationAndMeet()
+                    result.winner.fromWinnerType()?.let { winner ->
+                        binding.imageTop.setImageResource(result.cpu.leftIcon)
+                        binding.imageBottom.setImageResource(result.player.rightIcon)
+                        binding.selectOptionJankenpon.clearSelection()
+                        binding.viewResultAlert.show(winner)
+                    }
+                }
+            }
+
+            launch {
+                viewModel.resetEvent.collect {
+                    binding.selectOptionJankenpon.clearSelection()
+                }
+            }
         }
     }
 
     private fun stopHandsAnimationAndMeet() {
         binding.run {
-            imageTop.clearAnimation()
-            imageBottom.clearAnimation()
-
-            applyAnimationTo(imageTop, R.anim.anim_slide_bottom_to_top)
-            applyAnimationTo(imageBottom, R.anim.anim_slide_top_to_bottom)
+//            imageTop.clearAnimation()
+//            imageBottom.clearAnimation()
         }
-        binding.imageTop.clearAnimation()
-        binding.imageBottom.clearAnimation()
     }
-
 
     private fun startHandsLoopAnimation() {
         binding.run {
@@ -137,23 +123,5 @@ class GameActivity : BaseActivity<ActivityGameBinding>() {
                 applyAnimationTo(viewTextAnimate.icPon, R.anim.anim_fade_in)
             }, DELAY_PON_MS)
         }
-    }
-
-    private fun animateImageChange(imageView: ImageView, @DrawableRes newRes: Int) {
-        val fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out)
-        val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
-
-        fadeOut.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation?) { /* do nothing */ }
-
-            override fun onAnimationRepeat(animation: Animation?) { /* do nothing */ }
-
-            override fun onAnimationEnd(animation: Animation?) {
-                imageView.setImageResource(newRes)
-                imageView.startAnimation(fadeIn)
-            }
-        })
-
-        imageView.startAnimation(fadeOut)
     }
 }

@@ -2,7 +2,6 @@ package com.mariwronka.jankenpon.data.mapper
 
 import com.mariwronka.jankenpon.data.source.remote.entity.JankenponResponse
 import com.mariwronka.jankenpon.data.source.remote.entity.JankenponResult
-import com.mariwronka.jankenpon.domain.entity.JankenponType
 import com.mariwronka.jankenpon.domain.entity.JankenponType.Companion.fromTag
 import com.mariwronka.jankenpon.domain.entity.JankenponType.ROCK
 
