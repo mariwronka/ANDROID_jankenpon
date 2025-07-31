@@ -67,6 +67,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_center_horizontal" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_choose_your_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:letterSpacing="0.08"
+        android:text="@string/choose_your_option"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/select_option_jankenpon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.mariwronka.jankenpon.ui.component.SelectOptionJankenponComponent
         android:id="@+id/select_option_jankenpon"
         android:layout_width="0dp"
@@ -80,6 +93,7 @@
 
     <include
         android:id="@+id/view_loading"
-        layout="@layout/view_loading" />
+        layout="@layout/view_loading"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

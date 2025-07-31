@@ -22,6 +22,7 @@
     <string name="restart">Começar de novo</string>
     <string name="no_victories">Nenhuma vitória</string>
     <string name="rankin">Ranking</string>
+    <string name="choose_your_option">Faça sua escolha:</string>
     <plurals name="player_score_count">
         <item quantity="one">1 vitória</item>
         <item quantity="other">%d vitórias</item>
