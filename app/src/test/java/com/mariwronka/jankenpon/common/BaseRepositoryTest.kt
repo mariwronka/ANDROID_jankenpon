@@ -1,10 +1,10 @@
 package com.mariwronka.jankenpon.common
 
 import com.mariwronka.jankenpon.di.provideTestApiModule
-import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
@@ -28,7 +28,7 @@ import org.koin.test.KoinTest
  */
 abstract class BaseRepositoryTest : KoinTest {
 
-    private lateinit var mockWebServer: MockWebServer
+    protected lateinit var mockWebServer: MockWebServer
 
     @Before
     fun setupBase() {
@@ -49,8 +49,9 @@ abstract class BaseRepositoryTest : KoinTest {
     open fun onSetup() = Unit
 
     private fun readJson(path: String): String {
-        return javaClass.classLoader?.getResource(path)?.readText()
-            ?: error("Arquivo $path não encontrado")
+        val fullPath = if (path.endsWith(".json")) path else "$path.json"
+        return javaClass.classLoader?.getResource(fullPath)?.readText()
+            ?: error("Arquivo $fullPath não encontrado")
     }
 
     private fun enqueueResponse(body: String, code: Int = 200) {
@@ -72,9 +73,9 @@ abstract class BaseRepositoryTest : KoinTest {
      * @param expected valor esperado.
      * @param block função que executa a chamada a ser testada.
      */
-    fun <T> mockResponseAndAssertAsyncValue(jsonFileName: String, expected: T, block: suspend () -> T) = runTest {
+    suspend fun <T> mockResponseAndAssertAsyncValue(jsonFileName: String, expected: T, block: suspend () -> T) {
         enqueueJson(jsonFileName)
-        kotlin.test.assertEquals(expected, block())
+        assertEquals(expected, block())
     }
 
     /**
@@ -86,7 +87,6 @@ abstract class BaseRepositoryTest : KoinTest {
     suspend fun assertAsyncError(code: Int = 400, block: suspend () -> Unit) {
         enqueueErrorJson(code)
         runCatching { block() }
-            .onFailure { /* Adicione validações se necessário */ }
             .onSuccess { error("Esperava erro HTTP $code") }
     }
 }

@@ -1,8 +1,8 @@
 package com.mariwronka.jankenpon.ui.viewmodels
 
 import com.mariwronka.jankenpon.common.BaseViewModelTest
+import com.mariwronka.jankenpon.di.IO_DISPATCHER
 import com.mariwronka.jankenpon.domain.repository.PlayersRepository
-import com.mariwronka.jankenpon.ui.common.base.IO_DISPATCHER
 import com.mariwronka.jankenpon.ui.viremodels.PlayersViewModel
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineDispatcher

@@ -2,6 +2,7 @@ package com.mariwronka.jankenpon.ui.common.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mariwronka.jankenpon.di.IO_DISPATCHER
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,17 +12,15 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.qualifier.named
 
-const val IO_DISPATCHER = "IO"
-
-abstract class BaseViewModel<T> : ViewModel(), KoinComponent {
+abstract class BaseViewModel<T>(
+    private val backgroundDispatcher: CoroutineDispatcher? = null,
+) : ViewModel(), KoinComponent {
 
     private val _uiState = MutableStateFlow<BaseUiState<T>>(BaseUiState.Idle)
     val baseUiState: StateFlow<BaseUiState<T>> = _uiState.asStateFlow()
 
-    private val backgroundDispatcher: CoroutineDispatcher = get(named(IO_DISPATCHER))
-
     fun launchDataLoad(showLoading: Boolean = true, block: suspend () -> T) {
-        viewModelScope.launch(backgroundDispatcher) {
+        viewModelScope.launch(backgroundDispatcher ?: get<CoroutineDispatcher>(named(IO_DISPATCHER))) {
             if (showLoading) _uiState.value = BaseUiState.Loading
             runCatching { block() }
                 .onSuccess { result -> _uiState.value = BaseUiState.Success(result) }
