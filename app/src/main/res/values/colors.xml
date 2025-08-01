@@ -7,7 +7,6 @@
 
     <color name="hands_color">#FDD7BB</color>
     <color name="black">#FF000000</color>
-    <color name="text_black">#333333</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#D9D9D9</color>
 
@@ -19,5 +18,4 @@
     <color name="button_victory">#E5FFBE</color>
     <color name="button_defeat">#FFC3C2</color>
     <color name="button_draw">#FCFFA0</color>
-    <color name="default_gray">#333333</color>
 </resources>

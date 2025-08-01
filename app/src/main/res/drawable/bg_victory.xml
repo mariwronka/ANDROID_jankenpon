@@ -14,10 +14,10 @@
                 android:startY="0"
                 android:type="linear">
                 <item
-                    android:color="#CC8ACA5C"
+                    android:color="#CCD6F871"
                     android:offset="0" />
                 <item
-                    android:color="#CC53AC3F"
+                    android:color="#CC8FBF00"
                     android:offset="1" />
             </gradient>
         </aapt:attr>
@@ -33,12 +33,13 @@
                 android:startY="0"
                 android:type="linear">
                 <item
-                    android:color="#E653AC3F"
+                    android:color="#193B4E00"
                     android:offset="0" />
                 <item
-                    android:color="#E68ACA5C"
+                    android:color="#19D6F871"
                     android:offset="1" />
             </gradient>
         </aapt:attr>
     </path>
+
 </vector>

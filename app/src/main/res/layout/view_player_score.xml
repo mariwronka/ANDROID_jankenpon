@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:minWidth="150dp"
     android:padding="8dp"
-    tools:background="@color/default_gray">
+    tools:background="#333333">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageUser"

@@ -23,7 +23,7 @@ enum class WinnerType(
         R.string.activity_start_game_message_defeat,
         R.drawable.bg_defeat,
         R.color.button_defeat,
-        R.color.white,
+        R.color.black,
         "cpu",
     ),
     DRAW(

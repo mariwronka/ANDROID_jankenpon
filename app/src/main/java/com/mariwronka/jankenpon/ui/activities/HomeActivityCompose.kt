@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mariwronka.jankenpon.R
+import com.mariwronka.jankenpon.ui.theme.ButtonYellow
 import com.mariwronka.jankenpon.ui.theme.JankenponTheme
 
 class HomeActivityCompose : ComponentActivity() {
@@ -95,7 +96,7 @@ private fun ContentColumn(current: Context) {
             onClick = {
                 current.startActivity(Intent(current, GameActivity::class.java))
             },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Yellow),
+            colors = ButtonDefaults.buttonColors(containerColor = ButtonYellow),
         ) {
             Text(
                 text = "Vamos começar",

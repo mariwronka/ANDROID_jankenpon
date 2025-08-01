@@ -33,6 +33,7 @@ class GameResultAlertComponent @JvmOverloads constructor(
         binding.textTitle.setText(winnerType.messageTextRes)
         binding.textTitle.setTextColor(getColor(context, winnerType.titleTextColorRes))
         binding.buttonPlayAgain.setBackgroundColor(getColor(context, winnerType.buttonColorRes))
+        binding.buttonExit.setTextColor(getColor(context, winnerType.titleTextColorRes))
         blockTouch()
         visible()
     }

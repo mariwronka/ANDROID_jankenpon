@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_gray">
+    android:background="#333333">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/default_gray"
+        android:background="@color/black"
         android:fitsSystemWindows="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,6 +24,7 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:navigationIcon="@drawable/ic_back"
             app:title="Ranking"
+            android:background="#333333"
             app:titleCentered="true"
             app:titleTextColor="@color/white" />
 
@@ -61,6 +62,7 @@
         android:backgroundTint="@color/button_yellow"
         android:letterSpacing="0.08"
         android:paddingHorizontal="64dp"
+        android:paddingVertical="16dp"
         android:text="@string/restart"
         android:textColor="@android:color/black"
         android:textSize="14sp"
