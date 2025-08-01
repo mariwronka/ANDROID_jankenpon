@@ -12,7 +12,7 @@ import com.mariwronka.jankenpon.ui.common.base.BaseUiState.Loading
 import com.mariwronka.jankenpon.ui.common.extensions.gone
 import com.mariwronka.jankenpon.ui.common.extensions.visible
 import com.mariwronka.jankenpon.ui.common.extensions.visibleOrGone
-import com.mariwronka.jankenpon.ui.viremodels.PlayersViewModel
+import com.mariwronka.jankenpon.ui.viewmodels.PlayersViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -70,7 +70,6 @@ class GameActivity : BaseActivity<ActivityGameBinding>() {
 
             launch {
                 viewModel.jankenponResult.collect { result ->
-                    stopHandsAnimationAndMeet()
                     result.winner.fromWinnerType()?.let { winner ->
                         binding.imageTop.setImageResource(result.cpu.leftIcon)
                         binding.imageBottom.setImageResource(result.player.rightIcon)
@@ -85,13 +84,6 @@ class GameActivity : BaseActivity<ActivityGameBinding>() {
                     binding.selectOptionJankenpon.clearSelection()
                 }
             }
-        }
-    }
-
-    private fun stopHandsAnimationAndMeet() {
-        binding.run {
-//            imageTop.clearAnimation()
-//            imageBottom.clearAnimation()
         }
     }
 

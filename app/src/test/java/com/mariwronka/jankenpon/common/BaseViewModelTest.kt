@@ -1,10 +1,19 @@
 package com.mariwronka.jankenpon.common
 
+import com.mariwronka.jankenpon.di.IO_DISPATCHER
 import com.mariwronka.jankenpon.rules.MainDispatcherRule
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Rule
 import org.koin.core.context.stopKoin
 import org.koin.core.logger.Level
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
@@ -29,20 +38,25 @@ import org.koin.test.KoinTestRule
 @OptIn(ExperimentalCoroutinesApi::class)
 abstract class BaseViewModelTest : KoinTest {
 
+    protected open val koinTestModule = module { }
+
+    private val commonTestModule = module {
+        single<CoroutineDispatcher> { dispatcherRule.testDispatcher }
+        single<CoroutineDispatcher>(named(IO_DISPATCHER)) { dispatcherRule.testDispatcher }
+    }
+
     @get:Rule
     val dispatcherRule = MainDispatcherRule()
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
         printLogger(Level.NONE)
-        modules(
-            module {
-                single { dispatcherRule.testDispatcher }
-            },
-        )
+        modules(commonTestModule, koinTestModule)
     }
 
-    protected fun tearDownKoin() {
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
         stopKoin()
     }
 }

@@ -1,10 +1,9 @@
-package com.mariwronka.jankenpon.ui.viremodels
+package com.mariwronka.jankenpon.ui.viewmodels
 
 import androidx.lifecycle.viewModelScope
 import com.mariwronka.jankenpon.data.source.remote.entity.JankenponResult
 import com.mariwronka.jankenpon.domain.entity.PlayerType.COMPUTER
 import com.mariwronka.jankenpon.domain.entity.PlayerType.YOU
-import com.mariwronka.jankenpon.domain.entity.WinnerType
 import com.mariwronka.jankenpon.domain.entity.WinnerType.Companion.fromWinnerType
 import com.mariwronka.jankenpon.domain.entity.WinnerType.DEFEAT
 import com.mariwronka.jankenpon.domain.entity.WinnerType.DRAW
@@ -35,9 +34,6 @@ class PlayersViewModel(private val repository: PlayersRepository) : BaseViewMode
 
     private val _jankenponResult = MutableSharedFlow<JankenponResult>()
     val jankenponResult: SharedFlow<JankenponResult> get() = _jankenponResult
-
-    private val _winnerType = MutableSharedFlow<WinnerType>()
-    val winnerType: SharedFlow<WinnerType> get() = _winnerType
 
     private val _resetEvent = MutableSharedFlow<Unit>()
     val resetEvent: SharedFlow<Unit> get() = _resetEvent
