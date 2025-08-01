@@ -86,4 +86,11 @@ class PlayersRepositoryImplTest : BaseRepositoryTest() {
             repository.playGame("paper")
         }
     }
+
+    @Test
+    fun givenError500_whenPlayGame_thenThrowException() = runTest {
+        assertAsyncError(500) {
+            repository.playGame("rock")
+        }
+    }
 }
