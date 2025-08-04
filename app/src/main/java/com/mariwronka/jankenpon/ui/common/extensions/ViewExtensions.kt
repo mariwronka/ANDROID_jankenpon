@@ -10,10 +10,6 @@ fun View.visible() {
     visibility = View.VISIBLE
 }
 
-fun View.invisible() {
-    visibility = View.INVISIBLE
-}
-
 fun View.gone() {
     visibility = View.GONE
 }
@@ -21,9 +17,4 @@ fun View.gone() {
 fun View.blockTouch() {
     isClickable = true
     isFocusable = true
-}
-
-fun View.allowTouchThrough() {
-    isClickable = false
-    isFocusable = false
 }
