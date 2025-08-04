@@ -1,15 +1,15 @@
 package com.mariwronka.jankenpon.common
 
+import app.cash.turbine.ReceiveTurbine
 import com.mariwronka.jankenpon.di.IO_DISPATCHER
 import com.mariwronka.jankenpon.rules.MainDispatcherRule
+import com.mariwronka.jankenpon.ui.common.base.BaseUiState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.koin.core.context.stopKoin
 import org.koin.core.logger.Level
@@ -52,6 +52,15 @@ abstract class BaseViewModelTest : KoinTest {
     val koinTestRule = KoinTestRule.create {
         printLogger(Level.NONE)
         modules(commonTestModule, koinTestModule)
+    }
+
+    suspend fun <T> ReceiveTurbine<BaseUiState<T>>.assertStandardUiFlow(
+        expected: BaseUiState<T>,
+        showLoading: Boolean = true,
+    ) {
+        assertEquals(BaseUiState.Idle, awaitItem())
+        if (showLoading) assertEquals(BaseUiState.Loading, awaitItem())
+        assertEquals(expected, awaitItem())
     }
 
     @After

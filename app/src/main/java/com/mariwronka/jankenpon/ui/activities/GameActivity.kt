@@ -1,6 +1,7 @@
 package com.mariwronka.jankenpon.ui.activities
 
 import android.os.Bundle
+import android.widget.Toast
 import com.mariwronka.jankenpon.R
 import com.mariwronka.jankenpon.databinding.ActivityGameBinding
 import com.mariwronka.jankenpon.domain.entity.JankenponType
@@ -8,6 +9,7 @@ import com.mariwronka.jankenpon.domain.entity.JankenponType.Companion.toChoiceOp
 import com.mariwronka.jankenpon.domain.entity.JankenponType.ROCK
 import com.mariwronka.jankenpon.domain.entity.WinnerType.Companion.fromWinnerType
 import com.mariwronka.jankenpon.ui.common.base.BaseActivity
+import com.mariwronka.jankenpon.ui.common.base.BaseUiState
 import com.mariwronka.jankenpon.ui.common.base.BaseUiState.Loading
 import com.mariwronka.jankenpon.ui.common.extensions.gone
 import com.mariwronka.jankenpon.ui.common.extensions.visible
@@ -65,23 +67,29 @@ class GameActivity : BaseActivity<ActivityGameBinding>() {
             launch {
                 viewModel.baseUiState.collect { state ->
                     binding.viewLoading.root.visibleOrGone(state is Loading)
-                }
-            }
 
-            launch {
-                viewModel.jankenponResult.collect { result ->
-                    result.winner.fromWinnerType()?.let { winner ->
-                        binding.imageTop.setImageResource(result.cpu.leftIcon)
-                        binding.imageBottom.setImageResource(result.player.rightIcon)
-                        binding.selectOptionJankenpon.clearSelection()
-                        binding.viewResultAlert.show(winner)
+                    when (state) {
+                        is BaseUiState.Success -> {
+                            viewModel.postIdle()
+                            state.data?.let { result ->
+                                binding.imageTop.setImageResource(result.cpu.leftIcon)
+                                binding.imageBottom.setImageResource(result.player.rightIcon)
+                                binding.selectOptionJankenpon.clearSelection()
+                                binding.viewResultAlert.show(result.winner.fromWinnerType())
+                            }
+                        }
+
+                        is BaseUiState.Error -> {
+                            viewModel.postIdle()
+                            Toast.makeText(
+                                this@GameActivity,
+                                "Erro: ${state.throwable.message}",
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                        }
+
+                        else -> Unit
                     }
-                }
-            }
-
-            launch {
-                viewModel.resetEvent.collect {
-                    binding.selectOptionJankenpon.clearSelection()
                 }
             }
         }

@@ -28,14 +28,16 @@ class GameResultAlertComponent @JvmOverloads constructor(
         binding.buttonExit.setOnClickListener { onExit?.invoke() }
     }
 
-    fun show(winnerType: WinnerType) {
-        binding.root.setBackgroundResource(winnerType.backgroundRes)
-        binding.textTitle.setText(winnerType.messageTextRes)
-        binding.textTitle.setTextColor(getColor(context, winnerType.titleTextColorRes))
-        binding.buttonPlayAgain.setBackgroundColor(getColor(context, winnerType.buttonColorRes))
-        binding.buttonExit.setTextColor(getColor(context, winnerType.titleTextColorRes))
-        blockTouch()
-        visible()
+    fun show(winnerType: WinnerType?) {
+        winnerType?.let {
+            binding.root.setBackgroundResource(winnerType.backgroundRes)
+            binding.textTitle.setText(winnerType.messageTextRes)
+            binding.textTitle.setTextColor(getColor(context, winnerType.titleTextColorRes))
+            binding.buttonPlayAgain.setBackgroundColor(getColor(context, winnerType.buttonColorRes))
+            binding.buttonExit.setTextColor(getColor(context, winnerType.titleTextColorRes))
+            blockTouch()
+            visible()
+        }
     }
 
     fun hide() {

@@ -10,13 +10,11 @@ import com.mariwronka.jankenpon.domain.entity.WinnerType.DRAW
 import com.mariwronka.jankenpon.domain.entity.WinnerType.VICTORY
 import com.mariwronka.jankenpon.domain.repository.PlayersRepository
 import com.mariwronka.jankenpon.ui.common.base.BaseViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 
-class PlayersViewModel(private val repository: PlayersRepository) : BaseViewModel<Unit>() {
+class PlayersViewModel(private val repository: PlayersRepository) : BaseViewModel<JankenponResult?>() {
 
     val youWins: StateFlow<Int> get() = _youWins
     private val _youWins: StateFlow<Int> = repository.getVictoryCount(YOU).stateIn(
@@ -32,16 +30,9 @@ class PlayersViewModel(private val repository: PlayersRepository) : BaseViewMode
         initialValue = 0,
     )
 
-    private val _jankenponResult = MutableSharedFlow<JankenponResult>()
-    val jankenponResult: SharedFlow<JankenponResult> get() = _jankenponResult
-
-    private val _resetEvent = MutableSharedFlow<Unit>()
-    val resetEvent: SharedFlow<Unit> get() = _resetEvent
-
     fun playGame(guess: String) {
         launchDataLoad {
-            repository.playGame(guess).let { result ->
-                _jankenponResult.emit(result)
+            repository.playGame(guess).also { result ->
                 result.winner.fromWinnerType()?.let { winner ->
                     when (winner) {
                         VICTORY -> repository.incrementVictory(YOU)
@@ -53,8 +44,9 @@ class PlayersViewModel(private val repository: PlayersRepository) : BaseViewMode
         }
     }
 
-    fun resetGame() = launchDataLoad {
+    fun resetGame() = launchDataLoad(showLoading = false) {
         repository.clearVictoryCount(YOU)
         repository.clearVictoryCount(COMPUTER)
+        null
     }
 }
