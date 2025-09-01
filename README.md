@@ -96,4 +96,4 @@ O projeto conta com testes unitários para:
 - Tela de configurações e reset de placar
 
 ##  Desenvolvido com 💛 por Mari Wronka 👩🏻‍🦰
-[GitHub](https://www.linkedin.com/in/mari-wronka-a853a9a0/) | [LinkedIn](https://github.com/mariwronka)
+[LinkedIn](https://www.linkedin.com/in/mari-wronka-a853a9a0/) | [GitHub](https://github.com/mariwronka)
